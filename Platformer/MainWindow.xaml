@@ -6,11 +6,19 @@
         xmlns:local="clr-namespace:Platformer"
         mc:Ignorable="d"
         Title="MainWindow">
+<<<<<<< HEAD
     <Canvas Name="Canvas" Focusable="True" KeyDown="Canvas_KeyDown" KeyUp="Canvas_KeyUp" Background="LightGray" Height="450" Width="800">
         <Rectangle Name="player" Height="40" Width="25" Fill="Red" Canvas.Left="190" Canvas.Top="288"/>
         <Rectangle Name="testGround" Height="50" Width="550" Fill="Black" Canvas.Left="38" Canvas.Top="369"/>
         <Rectangle Name="testGround2" Height="153" Width="200" Fill="Black" Canvas.Left="529" Canvas.Top="216" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         <Rectangle Name="testGround3" Height="65" Width="54" Fill="Black" Canvas.Left="56" Canvas.Top="252" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
+=======
+    <Canvas Name="Canvas" Focusable="True" KeyDown="CanvasKeyDownCallback" KeyUp="CanvasKeyUpCallback" Background="LightGray" Height="450" Width="800">
+        <Rectangle Name="playerSprite" Height="40" Width="25" Fill="Red" Canvas.Left="190" Canvas.Top="288"/>
+        <Rectangle Name="bound1" Height="50" Width="550" Fill="Black" Canvas.Left="38" Canvas.Top="369"/>
+        <Rectangle Name="bound2" Height="153" Width="200" Fill="Black" Canvas.Left="529" Canvas.Top="216" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Rectangle Name="bound3" Height="65" Width="54" Fill="Black" Canvas.Left="56" Canvas.Top="252" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+>>>>>>> 6902503 (Added Engine and Game classes. Also some sprites for player and enemies.)
     </Canvas>
 </Window>

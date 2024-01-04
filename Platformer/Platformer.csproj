@@ -2,7 +2,11 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
+<<<<<<< HEAD
     <TargetFramework>net8.0-windows</TargetFramework>
+=======
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
+>>>>>>> 6902503 (Added Engine and Game classes. Also some sprites for player and enemies.)
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
