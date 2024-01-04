@@ -1,15 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-<<<<<<< HEAD
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Platformer.Classes
-{
-    internal class Engine
-    {
-=======
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,6 +46,5 @@ namespace Platformer.Classes {
             SetRender(renderFunc);
         } //constructor with render function initialization
         #endregion
->>>>>>> 6902503 (Added Engine and Game classes. Also some sprites for player and enemies.)
     }
 }
