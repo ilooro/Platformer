@@ -1,0 +1,15 @@
+﻿<Window x:Class="Platformer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Platformer"
+        mc:Ignorable="d"
+        Title="MainWindow">
+    <Canvas Name="Canvas" Focusable="True" KeyDown="CanvasKeyDownCallback" KeyUp="CanvasKeyUpCallback" Background="LightGray" Height="450" Width="800">
+        <Rectangle Name="playerSprite" Height="40" Width="25" Fill="Red" Canvas.Left="190" Canvas.Top="288"/>
+        <Rectangle Name="bound1" Height="50" Width="550" Fill="Black" Canvas.Left="38" Canvas.Top="369"/>
+        <Rectangle Name="bound2" Height="153" Width="200" Fill="Black" Canvas.Left="529" Canvas.Top="216" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Rectangle Name="bound3" Height="65" Width="54" Fill="Black" Canvas.Left="56" Canvas.Top="252" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+    </Canvas>
+</Window>
