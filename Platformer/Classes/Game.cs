@@ -15,13 +15,16 @@ using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Platformer.Classes {
-    internal class Game(Engine gameEngine, Player gameHero) {
+    internal class Game(Engine gameEngine, Player gameHero, Dictionary<Rectangle, Enemy> enemies) {
         #region Attributes
         //game engine
         public readonly Engine engine = gameEngine;
 
         //player
         public readonly Player hero = gameHero;
+
+        //enemies
+        public Dictionary<Rectangle, Enemy> Enemies = enemies;
 
         //current level index
         public uint currentLevel = 0;

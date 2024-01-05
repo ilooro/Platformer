@@ -38,13 +38,22 @@ namespace Platformer {
             var boxes = new List<Rect>();
             IEnumerable<Rectangle> rectangles = Canvas.Children.OfType<Rectangle>();
             foreach (var rect in rectangles)
-                if (rect != player)
+                if (rect.Name.StartsWith("bound"))
                     boxes.Add(new Rect(Canvas.GetLeft(rect), Canvas.GetTop(rect), rect.Width, rect.Height));
 
-            platformer.hero.Update(ref playerHitBox, boxes);
+            // Update player
+            platformer.hero.Update(boxes);
+            Canvas.SetLeft(player, platformer.hero.X);
+            Canvas.SetTop(player, platformer.hero.Y);
 
-            Canvas.SetTop(player, Canvas.GetTop(player) + platformer.hero.CurrentVerOffset);
-            Canvas.SetLeft(player, Canvas.GetLeft(player) + platformer.hero.CurrentHorOffset);
+            // Update enemies
+            foreach (var enemy in platformer.Enemies)
+            {
+                enemy.Value.Update(boxes, platformer.hero.HitBox);
+                Canvas.SetLeft(enemy.Key, enemy.Value.X);
+                Canvas.SetTop(enemy.Key, enemy.Value.Y);
+            }
+
         }
 
         //callbacks
@@ -71,7 +80,10 @@ namespace Platformer {
         private void CanvasKeyUpCallback(object? sender, KeyEventArgs e)
         {
             //control inputs
-            platformer.hero.StopMoving();
+            if (e.Key == Key.D)
+                platformer.hero.StopRight();
+            else if (e.Key == Key.A)
+                platformer.hero.StopLeft();
         }
 
         //constructors
@@ -84,7 +96,19 @@ namespace Platformer {
             Canvas.Focus();
 
             //game engine initialization
-            platformer = new(new(CustomRender), new(7, 7, 15));
+            var playerHitBox = new Rect(Canvas.GetLeft(playerSprite), Canvas.GetTop(playerSprite), playerSprite.Width, playerSprite.Height);
+            var player = new Player(speed: 10, jumpSpeed: 10, jumpForce: 10, hitBox: playerHitBox, heatPoint: 10, attackPower: 1);
+
+            var enemy1HitBox = new Rect(Canvas.GetLeft(enemy1Sprite), Canvas.GetTop(enemy1Sprite), enemy1Sprite.Width, enemy1Sprite.Height);
+            var enemy2HitBox = new Rect(Canvas.GetLeft(enemy2Sprite), Canvas.GetTop(enemy2Sprite), enemy2Sprite.Width, enemy2Sprite.Height);
+            var enemies = new Dictionary<Rectangle, Enemy>() {
+                { enemy1Sprite, new(speed: 8, jumpSpeed: 10, jumpForce: 10, hitBox: enemy1HitBox,
+                                    heatPoint: 10, attackPower: 1) },
+                { enemy2Sprite, new(speed: 5, jumpSpeed: 0, jumpForce: 0, hitBox: enemy2HitBox,
+                                    heatPoint: 10, attackPower: 1, isFlying: true) }
+            };
+
+            platformer = new(new(CustomRender), player, enemies);
 
             //load first game level (main menu load should be here as level 0)
             platformer.LoadLevel(this, 0);
