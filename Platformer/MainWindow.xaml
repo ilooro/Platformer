@@ -5,11 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Platformer"
         mc:Ignorable="d"
-        Title="MainWindow">
-    <Canvas Name="Canvas" Focusable="True" KeyDown="CanvasKeyDownCallback" KeyUp="CanvasKeyUpCallback" Background="LightGray" Height="450" Width="800">
-        <Rectangle Name="playerSprite" Height="40" Width="25" Fill="Red" Canvas.Left="190" Canvas.Top="288"/>
-        <Rectangle Name="bound1" Height="50" Width="550" Fill="Black" Canvas.Left="38" Canvas.Top="369"/>
-        <Rectangle Name="bound2" Height="153" Width="200" Fill="Black" Canvas.Left="529" Canvas.Top="216" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-        <Rectangle Name="bound3" Height="65" Width="54" Fill="Black" Canvas.Left="56" Canvas.Top="252" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-    </Canvas>
+        Title="Hell's gatekeeper (DEMO)"
+        WindowStartupLocation ="CenterScreen"
+        Width="854"
+        Height="480"> <!--16:9 resolution-->
+    <Window.Background>
+        <ImageBrush ImageSource="Textures/medieval_battle_4.jpg" Stretch="UniformToFill"></ImageBrush>
+    </Window.Background>
+    <Viewbox Name="Viewbox" Stretch="Uniform">
+        <Canvas Name="Canvas" Focusable="True" KeyDown="CanvasKeyDownCallback" KeyUp="CanvasKeyUpCallback" ClipToBounds="True" Width="640" Height="480">
+            <Canvas.Background>
+                <ImageBrush ImageSource="Textures/cave_1.png" Stretch="Fill"></ImageBrush>
+            </Canvas.Background>
+        </Canvas>
+    </Viewbox> <!--4:3 resolution-->
 </Window>

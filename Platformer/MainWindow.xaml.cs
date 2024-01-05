@@ -1,4 +1,5 @@
 ﻿using Platformer.Classes;
+using System.Numerics;
 using System.Reflection;
 using System.Security.RightsManagement;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Platformer {
     public partial class MainWindow : Window {
@@ -20,18 +22,29 @@ namespace Platformer {
         private readonly Game platformer;
         #endregion
         #region Methods
+        private Rectangle? GetRectangleByName(string rectName) {
+            IEnumerable<Rectangle> rectangles = Canvas.Children.OfType<Rectangle>();
+            foreach (var rect in rectangles)
+                if (rect.Name == rectName) 
+                    return rect;
+            return null;
+        }
+
         private void CustomRender(object? sender, EventArgs e) {
-            Rect playerHitBox = new(Canvas.GetLeft(playerSprite), Canvas.GetTop(playerSprite), playerSprite.Width, playerSprite.Height);
+            Rectangle? player = GetRectangleByName("playerSprite");
+            if (player == null) return;
+
+            Rect playerHitBox = new(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
             var boxes = new List<Rect>();
             IEnumerable<Rectangle> rectangles = Canvas.Children.OfType<Rectangle>();
             foreach (var rect in rectangles)
-                if (rect != playerSprite)
+                if (rect != player)
                     boxes.Add(new Rect(Canvas.GetLeft(rect), Canvas.GetTop(rect), rect.Width, rect.Height));
 
             platformer.hero.Update(ref playerHitBox, boxes);
 
-            Canvas.SetTop(playerSprite, Canvas.GetTop(playerSprite) + platformer.hero.CurrentVerOffset);
-            Canvas.SetLeft(playerSprite, Canvas.GetLeft(playerSprite) + platformer.hero.CurrentHorOffset);
+            Canvas.SetTop(player, Canvas.GetTop(player) + platformer.hero.CurrentVerOffset);
+            Canvas.SetLeft(player, Canvas.GetLeft(player) + platformer.hero.CurrentHorOffset);
         }
 
         //callbacks
@@ -63,8 +76,11 @@ namespace Platformer {
 
         //constructors
         public MainWindow() {
-            //application components initialization
+            //application initialization
             InitializeComponent();
+            RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.NearestNeighbor); //since we are using pixel art sprites
+
+            //components of the window initialization
             Canvas.Focus();
 
             //game engine initialization

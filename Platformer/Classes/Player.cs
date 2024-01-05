@@ -13,7 +13,7 @@ namespace Platformer.Classes
     internal class Player(int speed, int jumpSpeed, int jumpForce)
     {
         #region Attributes
-        /*s
+        /*
         //movement improvement
         private Vector2 movementSpeed;    //{ speed along 0x axis, speed along 0y axis }
         private Vector2 movementSpeedMax; //{ maximum achievable speed along 0x axis, maximum achievable speed along 0y axis }
