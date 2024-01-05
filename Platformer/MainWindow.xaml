@@ -8,7 +8,8 @@
         Title="Hell's gatekeeper (DEMO)"
         WindowStartupLocation ="CenterScreen"
         Width="854"
-        Height="480"> <!--16:9 resolution-->
+        Height="480">
+    <!--16:9 resolution-->
     <Window.Background>
         <ImageBrush ImageSource="Textures/medieval_battle_4.jpg" Stretch="UniformToFill"></ImageBrush>
     </Window.Background>
@@ -18,5 +19,6 @@
                 <ImageBrush ImageSource="Textures/cave_1.png" Stretch="Fill"></ImageBrush>
             </Canvas.Background>
         </Canvas>
-    </Viewbox> <!--4:3 resolution-->
+    </Viewbox>
+    <!--4:3 resolution-->
 </Window>

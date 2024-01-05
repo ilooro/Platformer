@@ -12,7 +12,8 @@ using System.Windows.Shapes;
 
 namespace Platformer.Classes
 {
-    internal class Player(double speed, double jumpSpeed, int jumpForce, Rect hitBox, int heatPoint, int attackPower) : MovableEntity(speed, jumpSpeed, jumpForce, hitBox, heatPoint, attackPower)
+    internal class Player(double speed, double jumpSpeed, int jumpForce, int heatPoint, int attackPower, Rect hitBox=new()) 
+        : MovableEntity(speed, jumpSpeed, jumpForce, hitBox, heatPoint, attackPower)
     {
         public void Update(List<Rect> boxes)
         {

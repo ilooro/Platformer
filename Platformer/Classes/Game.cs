@@ -174,9 +174,38 @@ namespace Platformer.Classes {
                         Hero.Height = 64;
                         Hero.Width = 32;
                         Hero.Fill = new SolidColorBrush(Colors.Lime);
-                        Canvas.SetLeft(Hero, 640 / 2);
-                        Canvas.SetTop(Hero, 480 / 2);
+                        Point startPosition = new(640 / 2, 480 / 2);
+                        Canvas.SetLeft(Hero, startPosition.X);
+                        Canvas.SetTop(Hero, startPosition.Y);
                         window.Canvas.Children.Add(Hero);
+                        
+                        hero.HitBox = new Rect(startPosition.X, startPosition.Y, Hero.Width, Hero.Height);
+
+                        // Add enemies
+                        Rectangle e1 = new()
+                        {
+                            Name = "enemy1Sprite",
+                            Height = 40,
+                            Width = 30,
+                            Fill = new SolidColorBrush(Colors.Red)
+                        };
+                        startPosition = new(245, 240);
+                        Canvas.SetLeft(e1, startPosition.X);
+                        Canvas.SetTop(e1, startPosition.Y);
+                        window.Canvas.Children.Add(e1);
+
+                        Rectangle e2 = new()
+                        {
+                            Name = "enemy2Sprite",
+                            Height = 20,
+                            Width = 35,
+                            Fill = new SolidColorBrush(Colors.Cyan)
+                        };
+                        startPosition = new(338, 210);
+                        Canvas.SetLeft(e2, startPosition.X);
+                        Canvas.SetTop(e2, startPosition.Y);
+                        window.Canvas.Children.Add(e2);
+
                         break;
                     }
             }
