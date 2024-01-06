@@ -15,7 +15,7 @@ using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Platformer.Classes {
-    internal class Game(Engine gameEngine, Player gameHero, Dictionary<Rectangle, Enemy> enemies) {
+    internal class Game(Engine gameEngine, Player gameHero) {
         #region Attributes
         //game engine
         public readonly Engine engine = gameEngine;
@@ -24,7 +24,7 @@ namespace Platformer.Classes {
         public readonly Player hero = gameHero;
 
         //enemies
-        public Dictionary<Rectangle, Enemy> Enemies = enemies;
+        public Dictionary<Rectangle, Enemy> Enemies = [];
 
         //current level index
         public uint currentLevel = 0;
@@ -83,6 +83,21 @@ namespace Platformer.Classes {
             return groundBlock;
         }
 
+        public void GenerateEnemy(MainWindow window, string name, Color color, Enemy enemy)
+        {
+            Rectangle eDrawRect = new()
+            {
+                Name = name,
+                Height = enemy.HitBox.Height,
+                Width = enemy.HitBox.Width,
+                Fill = new SolidColorBrush(color)
+            };
+            Canvas.SetLeft(eDrawRect, enemy.HitBox.X);
+            Canvas.SetTop(eDrawRect, enemy.HitBox.Y);
+            window.Canvas.Children.Add(eDrawRect);
+            Enemies.Add(eDrawRect, enemy);
+        }
+
         //level managing
         public void LoadLevel(MainWindow window, uint LevelIndex = 0) {
             window.Canvas.Children.Clear(); //clear canvas
@@ -92,8 +107,8 @@ namespace Platformer.Classes {
                 case 0: {
                         {
                             //tiles with texture index of 0
-                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, window.Canvas, new(15,  1));
-                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, window.Canvas, new(13,  2));
+                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, window.Canvas, new(15, 1));
+                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, window.Canvas, new(13, 2));
                             GenerateGroundBlock(32, new(1, 1), 0, 0, false, window.Canvas, new(17, 10));
                             GenerateGroundBlock(32, new(1, 1), 0, 0, false, window.Canvas, new(14, 11));
 
@@ -181,31 +196,11 @@ namespace Platformer.Classes {
                         
                         hero.HitBox = new Rect(startPosition.X, startPosition.Y, Hero.Width, Hero.Height);
 
-                        // Add enemies
-                        Rectangle e1 = new()
-                        {
-                            Name = "enemy1Sprite",
-                            Height = 40,
-                            Width = 30,
-                            Fill = new SolidColorBrush(Colors.Red)
-                        };
-                        startPosition = new(245, 240);
-                        Canvas.SetLeft(e1, startPosition.X);
-                        Canvas.SetTop(e1, startPosition.Y);
-                        window.Canvas.Children.Add(e1);
-
-                        Rectangle e2 = new()
-                        {
-                            Name = "enemy2Sprite",
-                            Height = 20,
-                            Width = 35,
-                            Fill = new SolidColorBrush(Colors.Cyan)
-                        };
-                        startPosition = new(338, 210);
-                        Canvas.SetLeft(e2, startPosition.X);
-                        Canvas.SetTop(e2, startPosition.Y);
-                        window.Canvas.Children.Add(e2);
-
+                        // TODO: I don't know, just... just fix it?
+                        GenerateEnemy(window, "enemy1Sprite", Colors.Red,
+                            new(speed: 8, jumpSpeed: 10, jumpForce: 10, heatPoint: 10, attackPower: 1, hitBox: new Rect(450, 240, 30, 40)));
+                        GenerateEnemy(window, "enemy2Sprite", Colors.Cyan,
+                            new(speed: 5, jumpSpeed: 0, jumpForce: 0, heatPoint: 10, attackPower: 1, hitBox: new Rect(338, 210, 35, 20), isFlying: true));
                         break;
                     }
             }

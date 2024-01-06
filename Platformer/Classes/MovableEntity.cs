@@ -16,7 +16,7 @@ namespace Platformer.Classes
         protected double _speed = speed;
         private double _inputHorOffset = 0;
 
-        public double _gravity { get; set; } = 10;
+        public double Gravity { get; set; } = 12;
         private int _currentJumpForce = 0;
         private bool _isJumping = false;
         private bool _onFloor = false;
@@ -29,7 +29,7 @@ namespace Platformer.Classes
             return new(HitBox.X + HitBox.Width / 2, HitBox.Y + HitBox.Height / 2);
         }
 
-        protected void TargetingTransform(List<Rect> boxes, Rect target, bool isFlying=false)
+        protected void TargetingTransform(List<Rect> boxes, Rect target, bool isFlying = false)
         {
             if (isFlying)
             {
@@ -47,9 +47,9 @@ namespace Platformer.Classes
             }
             else
             {
-                if (HitBox.Right < target.Left)
+                if (HitBox.Right <= target.Left)
                     MoveRight();
-                else if (HitBox.Left > target.Right)
+                else if (HitBox.Left >= target.Right)
                     MoveLeft();
                 else
                     StopMove();
@@ -60,7 +60,7 @@ namespace Platformer.Classes
         protected void Transform(List<Rect> boxes, double? inHorOffset = null, double? inVerOffset = null)
         {
             double horOffset = inHorOffset ?? _inputHorOffset;
-            double verOffset = inVerOffset ?? _gravity;
+            double verOffset = inVerOffset ?? Gravity;
 
             if (_isJumping && _currentJumpForce <= 0)
                 _isJumping = false;
@@ -93,33 +93,38 @@ namespace Platformer.Classes
                     // Bottom colision
                     if (prevY + HitBox.Height < box.Top && HitBox.Bottom > box.Top)
                         HitBox.Y = box.Top - HitBox.Height;
-                    else if (!_isJumping && Math.Abs(prevY + HitBox.Height - box.Top) < 1e-7)
+                    else if (!_isJumping && prevY + HitBox.Height == box.Top)
                     {
                         _onFloor = true;
                         HitBox.Y = prevY;
                     }
-                    else
-                    {
-                        // Right colision
-                        if (prevX + HitBox.Width < box.Left && HitBox.Right > box.Left)
-                            HitBox.X = box.Left - HitBox.Width;
-                        else if (Math.Abs(prevX + HitBox.Width - box.Left) < 1e-7 &&
-                            horOffset > 0)
-                        {
-                            HitBox.X = prevX;
-                            if (autoJump)
-                                Jump();
-                        }
 
-                        // Left colision
-                        if (prevX > box.Right && HitBox.Left < box.Right)
-                            HitBox.X = box.Right;
-                        else if (prevX == box.Right && horOffset < 0)
+                    // Right colision
+                    if (HitBox.Bottom - box.Top >= 1 && prevX + HitBox.Width < box.Left && HitBox.Right > box.Left)
+                        HitBox.X = box.Left - HitBox.Width;
+                    else if (prevX + HitBox.Width == box.Left && horOffset > 0)
+                    {
+                        if (autoJump)
                         {
                             HitBox.X = prevX;
-                            if (autoJump)
-                                Jump();
+                            Jump();
                         }
+                        if (HitBox.Bottom - box.Top >= 1)
+                            HitBox.X = prevX;
+                    }
+
+                    // Left colision
+                    if (HitBox.Bottom - box.Top >= 1 && prevX > box.Right && HitBox.Left < box.Right)
+                        HitBox.X = box.Right;
+                    else if (prevX == box.Right && horOffset < 0)
+                    {
+                        if (autoJump)
+                        {
+                            HitBox.X = prevX;
+                            Jump();
+                        }
+                        if (HitBox.Bottom - box.Top >= 1)
+                            HitBox.X = prevX;
                     }
                 }
             }
