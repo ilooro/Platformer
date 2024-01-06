@@ -8,8 +8,8 @@ using System.Windows.Input;
 
 namespace Platformer.Classes
 {
-    internal class Enemy(double speed, int jumpSpeed, int jumpForce, int heatPoint, int attackPower, 
-        Rect hitBox = new(), bool isFlying = false) : MovableEntity(speed, jumpSpeed, jumpForce, hitBox, heatPoint, attackPower, true)
+    internal class Enemy(double speed, int jumpSpeed, int jumpForce, int heatPoint, int attackPower, int attackSpeed,
+        Rect hitBox = new(), bool isFlying = false) : MovableEntity(speed, jumpSpeed, jumpForce, hitBox, heatPoint, attackPower, attackSpeed, true)
     {
         public void Update(List<Rect> boxes, Rect target)
         {

@@ -31,6 +31,8 @@ namespace Platformer.Classes {
 
         public List<Rect> Bounds = [];
 
+        public Dictionary<Entity, ProgressBar> HealthBars = [];
+
         //other entities
         //private Entity Core;
         //private List<Enemy> monsters;
@@ -103,6 +105,23 @@ namespace Platformer.Classes {
             Canvas.SetTop(eDrawRect, enemy.HitBox.Y);
             window.Canvas.Children.Add(eDrawRect);
             Enemies.Add(eDrawRect, enemy);
+            AddHealthBar(window, enemy, 50, 5, Brushes.Red);
+        }
+
+        public void AddHealthBar(MainWindow window, Entity entity, int width, int height, Brush brush)
+        {
+            ProgressBar healthBar = new()
+            {
+                Width = width,
+                Height = height,
+                Minimum = 0,
+                Maximum = entity.MaxHitPoints,
+                Foreground = brush
+            };
+            Canvas.SetLeft(healthBar, entity.HitBox.X);
+            Canvas.SetTop(healthBar, entity.HitBox.Y);
+            window.Canvas.Children.Add(healthBar);
+            HealthBars.Add(entity, healthBar);
         }
 
         //level managing
@@ -200,14 +219,16 @@ namespace Platformer.Classes {
                         Canvas.SetLeft(Hero, startPosition.X);
                         Canvas.SetTop(Hero, startPosition.Y);
                         window.Canvas.Children.Add(Hero);
+
+                        AddHealthBar(window, hero, 50, 8, Brushes.Green);
                         
                         hero.HitBox = new Rect(startPosition.X, startPosition.Y, Hero.Width, Hero.Height);
 
                         // TODO: I don't know, just... just fix it?
                         GenerateEnemy(window, "enemy1Sprite", Colors.Red,
-                            new(speed: 8, jumpSpeed: 10, jumpForce: 10, heatPoint: 10, attackPower: 1, hitBox: new Rect(450, 240, 30, 40)));
+                            new(speed: 8, jumpSpeed: 10, jumpForce: 10, heatPoint: 10, attackPower: 1, attackSpeed: 50, hitBox: new Rect(450, 240, 30, 40)));
                         GenerateEnemy(window, "enemy2Sprite", Colors.Cyan,
-                            new(speed: 5, jumpSpeed: 0, jumpForce: 0, heatPoint: 10, attackPower: 1, hitBox: new Rect(338, 210, 35, 20), isFlying: true));
+                            new(speed: 3, jumpSpeed: 0, jumpForce: 0, heatPoint: 10, attackPower: 1, attackSpeed: 50, hitBox: new Rect(338, 210, 35, 20), isFlying: true));
                         break;
                     }
             }
