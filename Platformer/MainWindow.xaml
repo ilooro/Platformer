@@ -15,7 +15,16 @@
     <Viewbox Name="Viewbox" Stretch="Uniform">
         <Canvas Name="Canvas" Focusable="True" KeyDown="CanvasKeyDownCallback" KeyUp="CanvasKeyUpCallback" ClipToBounds="True" Width="640" Height="480">
             <Canvas.Background>
-                <ImageBrush ImageSource="Textures/cave_1.png" Stretch="Fill"></ImageBrush>
+                <!--GIF animated background (performance issues)-->
+                <!--<VisualBrush Stretch="UniformToFill">             -->
+                <!--    <VisualBrush.Visual>                          -->
+                <!--        <MediaElement Name="backgroundGIF"        -->
+                <!--            LoadedBehavior="Play"                 -->
+                <!--            MediaEnded="MediaEndedCallback"       -->
+                <!--            Source="Textures/cave_original.gif"/> -->
+                <!--    </VisualBrush.Visual>                         -->
+                <!--</VisualBrush>                                    -->
+                <ImageBrush ImageSource="Textures/cave_1.png" Stretch="UniformToFill"></ImageBrush>
             </Canvas.Background>
         </Canvas>
     </Viewbox> <!--4:3 resolution-->

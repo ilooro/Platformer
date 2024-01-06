@@ -68,17 +68,25 @@ namespace Platformer {
             else if (e.Key == Key.W)
                 platformer.hero.Jump();
         }
-        private void CanvasKeyUpCallback(object? sender, KeyEventArgs e)
-        {
+        private void CanvasKeyUpCallback(object? sender, KeyEventArgs e) {
             //control inputs
             platformer.hero.StopMoving();
         }
+        /*
+        private void MediaEndedCallback(object? sender, RoutedEventArgs e) {
+            backgroundGIF.Position = TimeSpan.FromSeconds(1);
+        } //for GIF background animation
+        */
 
         //constructors
         public MainWindow() {
             //application initialization
             InitializeComponent();
-            RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.NearestNeighbor); //since we are using pixel art sprites
+
+            //since we are using pixel art sprites
+            SnapsToDevicePixels = true;
+            RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.NearestNeighbor);
+            RenderOptions.SetEdgeMode(this, EdgeMode.Aliased);
 
             //components of the window initialization
             Canvas.Focus();

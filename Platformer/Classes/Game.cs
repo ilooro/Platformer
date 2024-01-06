@@ -32,26 +32,29 @@ namespace Platformer.Classes {
         #endregion
         #region Methods
         //get tiling texture
-        private Rectangle GenerateGroundBlock(uint tileSize, Vector2 size, uint tileIndex, uint rotate = 0, bool invert = false, Canvas? canvas = null, Vector2? placement = null) {
+        static private Rectangle GenerateGroundBlock(uint tileSize, Vector2 sizeInTiles, uint tileIndex, uint rotate = 0, bool invert = false, Canvas? canvas = null, Vector2? placement = null) {
             Rectangle groundBlock = new();
             {
                 groundBlock.Name = "ground";
-                size *= tileSize;
-                groundBlock.Width = size.X;
-                groundBlock.Height = size.Y;
+                sizeInTiles *= tileSize;
+                groundBlock.Width = sizeInTiles.X;
+                groundBlock.Height = sizeInTiles.Y;
 
-                BitmapImage tileTexture = new BitmapImage(new(@"Textures/stonetiles.png", UriKind.Relative));
+                BitmapImage tileTexture = new(new(@"Textures/stonetiles.png", UriKind.Relative));
                 Vector2 tileLayout = new((uint)tileTexture.Width / tileSize, (uint)tileTexture.Height / tileSize);
                 Vector2 tilingFactor = new(1.0f / (uint)tileLayout.X, 1.0f / (uint)tileLayout.Y);
                 ImageBrush tileImageBrush = new();
                 {
                     tileImageBrush.ImageSource = tileTexture;
                     tileImageBrush.Viewbox = new Rect(tilingFactor.X * (tileIndex % (uint)tileLayout.X), tilingFactor.Y * (tileIndex / (uint)tileLayout.X), tilingFactor.X, tilingFactor.Y);
-                    tileImageBrush.ViewportUnits = BrushMappingMode.Absolute;
-                    tileImageBrush.Viewport = new Rect(0.0f, 0.0f, tileSize, tileSize);
+                    if (rotate % 2 == 0)
+                        tileImageBrush.Viewport = new Rect(0.0f, 0.0f, tileSize / sizeInTiles.X, tileSize / sizeInTiles.Y);
+                    else
+                        tileImageBrush.Viewport = new Rect(0.0f, 0.0f, tileSize / sizeInTiles.Y, tileSize / sizeInTiles.X);
                     tileImageBrush.AlignmentX = AlignmentX.Left;
                     tileImageBrush.AlignmentY = AlignmentY.Top;
                     tileImageBrush.TileMode = TileMode.Tile;
+                    tileImageBrush.Stretch = Stretch.None;
 
                     TransformGroup transformation = new();
                     transformation.Children.Add(new ScaleTransform(invert ? -1.0 : 1.0, 1.0));
@@ -61,7 +64,10 @@ namespace Platformer.Classes {
                 } //tiling brush generation
 
                 groundBlock.Fill = tileImageBrush;
-                groundBlock.Stroke = new SolidColorBrush(Colors.Red); //temporary
+
+                //tile seams workaround fix
+                groundBlock.Stroke = new SolidColorBrush(Color.FromRgb(20, 12, 28));
+                groundBlock.StrokeThickness = 1.1f;
             } //ground block generation
             {
                 if (canvas != null) {
@@ -162,7 +168,7 @@ namespace Platformer.Classes {
                             GenerateGroundBlock(32, new(1, 1), 12, 0, false, window.Canvas, new(6, 4));
                             GenerateGroundBlock(32, new(1, 1), 12, 0, false, window.Canvas, new(4, 5));
 
-                            //texture index of 13 and 14 left unused
+                            //texture indecies of 13 and 14 left unused
                         } //load level landscape
 
                         //create hero sprite and place it on canvas

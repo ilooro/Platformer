@@ -22,6 +22,7 @@
     <None Remove="Textures\medieval_battle_3.jpg" />
     <None Remove="Textures\medieval_battle_4.jpg" />
     <None Remove="Textures\stonetiles.png" />
+    <None Remove="Textures\stonetiles_margin.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +38,7 @@
     <Resource Include="Textures\medieval_battle_3.jpg" />
     <Resource Include="Textures\medieval_battle_4.jpg" />
     <Resource Include="Textures\stonetiles.png" />
+    <Resource Include="Textures\stonetiles_margin.png" />
   </ItemGroup>
 
   <ItemGroup>
