@@ -29,6 +29,8 @@ namespace Platformer.Classes {
         //current level index
         public uint currentLevel = 0;
 
+        public List<Rect> Bounds = [];
+
         //other entities
         //private Entity Core;
         //private List<Enemy> monsters;
@@ -80,6 +82,11 @@ namespace Platformer.Classes {
                     canvas.Children.Add(groundBlock);
                 }
             } //ground block drawing
+
+            // Save to list for performance
+            Bounds.Add(new Rect(Canvas.GetLeft(groundBlock), Canvas.GetTop(groundBlock),
+                groundBlock.Width, groundBlock.Height));
+
             return groundBlock;
         }
 

@@ -35,25 +35,18 @@ namespace Platformer {
             Rectangle? player = GetRectangleByName("playerSprite");
             if (player == null) return;
 
-            var boxes = new List<Rect>();
-            IEnumerable<Rectangle> rectangles = Canvas.Children.OfType<Rectangle>();
-            foreach (var rect in rectangles)
-                if (rect.Name.StartsWith("ground"))
-                    boxes.Add(new Rect(Canvas.GetLeft(rect), Canvas.GetTop(rect), rect.Width, rect.Height));
-
             // Update player
-            platformer.hero.Update(boxes);
+            platformer.hero.Update(platformer.Bounds);
             Canvas.SetLeft(player, platformer.hero.X);
             Canvas.SetTop(player, platformer.hero.Y);
 
             // Update enemies
             foreach (var enemy in platformer.Enemies)
             {
-                enemy.Value.Update(boxes, platformer.hero.HitBox);
+                enemy.Value.Update(platformer.Bounds, platformer.hero.HitBox);
                 Canvas.SetLeft(enemy.Key, enemy.Value.X);
                 Canvas.SetTop(enemy.Key, enemy.Value.Y);
             }
-
         }
 
         //callbacks
