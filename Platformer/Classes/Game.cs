@@ -23,8 +23,13 @@ namespace Platformer.Classes {
         //player
         public readonly Player hero = gameHero;
 
+        //enemies
+        public Dictionary<Rectangle, Enemy> Enemies = [];
+
         //current level index
         public uint currentLevel = 0;
+
+        public List<Rect> Bounds = [];
 
         //other entities
         //private Entity Core;
@@ -83,7 +88,27 @@ namespace Platformer.Classes {
                     canvas.Children.Add(groundBlock);
                 }
             } //ground block drawing
+
+            // Save to list for performance
+            Bounds.Add(new Rect(Canvas.GetLeft(groundBlock), Canvas.GetTop(groundBlock),
+                groundBlock.Width, groundBlock.Height));
+
             return groundBlock;
+        }
+
+        public void GenerateEnemy(MainWindow window, string name, Color color, Enemy enemy)
+        {
+            Rectangle eDrawRect = new()
+            {
+                Name = name,
+                Height = enemy.HitBox.Height,
+                Width = enemy.HitBox.Width,
+                Fill = new SolidColorBrush(color)
+            };
+            Canvas.SetLeft(eDrawRect, enemy.HitBox.X);
+            Canvas.SetTop(eDrawRect, enemy.HitBox.Y);
+            window.Canvas.Children.Add(eDrawRect);
+            Enemies.Add(eDrawRect, enemy);
         }
 
         //level managing
@@ -95,8 +120,8 @@ namespace Platformer.Classes {
                 case 0: {
                         {
                             //tiles with texture index of 0
-                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, window.Canvas, new(15,  1));
-                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, window.Canvas, new(13,  2));
+                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, window.Canvas, new(15, 1));
+                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, window.Canvas, new(13, 2));
                             GenerateGroundBlock(32, new(1, 1), 0, 0, false, window.Canvas, new(17, 10));
                             GenerateGroundBlock(32, new(1, 1), 0, 0, false, window.Canvas, new(14, 11));
 
@@ -177,9 +202,18 @@ namespace Platformer.Classes {
                         Hero.Height = 64;
                         Hero.Width = 32;
                         Hero.Fill = new SolidColorBrush(Colors.Lime);
-                        Canvas.SetLeft(Hero, 640 / 2);
-                        Canvas.SetTop(Hero, 480 / 2);
+                        Point startPosition = new(640 / 2, 480 / 2);
+                        Canvas.SetLeft(Hero, startPosition.X);
+                        Canvas.SetTop(Hero, startPosition.Y);
                         window.Canvas.Children.Add(Hero);
+                        
+                        hero.HitBox = new Rect(startPosition.X, startPosition.Y, Hero.Width, Hero.Height);
+
+                        // TODO: I don't know, just... just fix it?
+                        GenerateEnemy(window, "enemy1Sprite", Colors.Red,
+                            new(speed: 8, jumpSpeed: 10, jumpForce: 10, heatPoint: 10, attackPower: 1, hitBox: new Rect(450, 240, 30, 40)));
+                        GenerateEnemy(window, "enemy2Sprite", Colors.Cyan,
+                            new(speed: 5, jumpSpeed: 0, jumpForce: 0, heatPoint: 10, attackPower: 1, hitBox: new Rect(338, 210, 35, 20), isFlying: true));
                         break;
                     }
             }

@@ -1,4 +1,5 @@
 ﻿using Platformer.Classes;
+using System;
 using System.Numerics;
 using System.Reflection;
 using System.Security.RightsManagement;
@@ -34,17 +35,18 @@ namespace Platformer {
             Rectangle? player = GetRectangleByName("playerSprite");
             if (player == null) return;
 
-            Rect playerHitBox = new(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
-            var boxes = new List<Rect>();
-            IEnumerable<Rectangle> rectangles = Canvas.Children.OfType<Rectangle>();
-            foreach (var rect in rectangles)
-                if (rect != player)
-                    boxes.Add(new Rect(Canvas.GetLeft(rect), Canvas.GetTop(rect), rect.Width, rect.Height));
+            // Update player
+            platformer.hero.Update(platformer.Bounds);
+            Canvas.SetLeft(player, platformer.hero.X);
+            Canvas.SetTop(player, platformer.hero.Y);
 
-            platformer.hero.Update(ref playerHitBox, boxes);
-
-            Canvas.SetTop(player, Canvas.GetTop(player) + platformer.hero.CurrentVerOffset);
-            Canvas.SetLeft(player, Canvas.GetLeft(player) + platformer.hero.CurrentHorOffset);
+            // Update enemies
+            foreach (var enemy in platformer.Enemies)
+            {
+                enemy.Value.Update(platformer.Bounds, platformer.hero.HitBox);
+                Canvas.SetLeft(enemy.Key, enemy.Value.X);
+                Canvas.SetTop(enemy.Key, enemy.Value.Y);
+            }
         }
 
         //callbacks
@@ -70,7 +72,10 @@ namespace Platformer {
         }
         private void CanvasKeyUpCallback(object? sender, KeyEventArgs e) {
             //control inputs
-            platformer.hero.StopMoving();
+            if (e.Key == Key.D)
+                platformer.hero.StopRight();
+            else if (e.Key == Key.A)
+                platformer.hero.StopLeft();
         }
         /*
         private void MediaEndedCallback(object? sender, RoutedEventArgs e) {
@@ -92,7 +97,8 @@ namespace Platformer {
             Canvas.Focus();
 
             //game engine initialization
-            platformer = new(new(CustomRender), new(7, 7, 15));
+            var player = new Player(speed: 10, jumpSpeed: 10, jumpForce: 10, heatPoint: 10, attackPower: 1);
+            platformer = new(new(CustomRender), player);
 
             //load first game level (main menu load should be here as level 0)
             platformer.LoadLevel(this, 0);
