@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="Platformer.UserControls.LevelSelector_UserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
+             xmlns:local="clr-namespace:Platformer.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Viewbox Name="Viewbox" Stretch="UniformToFill">
+        <Canvas Name="Canvas" Focusable="True" ClipToBounds="True" Width="1920" Height="1080">
+            <Image gif:AnimationBehavior.SourceUri="../Textures/cave_original_upscale_crop.gif" gif:AnimationBehavior.AnimateInDesignMode="True" />
+            <Grid Name="mainGrid" Height="1080" Width="1920">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock x:Name="MainMenuTitle" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" FontFamily="../Fonts/#Minecraft Seven Cyrillic (russian)" Foreground="Black" 
+                      TextAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center" FontSize="72" Margin="0,325,0,100" Width="544">
+                        Select level
+                </TextBlock>
+
+                <Button Style="{DynamicResource ButtonStyle1}" Content="1"  HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="120" Width="125"
+                        Click="Level1ButtonCallback"/>
+                <Button Style="{DynamicResource ButtonStyle1}" Content="2"  HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="120" Width="125"
+                        Click="Level2ButtonCallback"/>
+                <Button Style="{DynamicResource ButtonStyle1}" Content="Back"  HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                    Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="75" Width="300"
+                        Click="BackButtonCallback"/>
+
+            </Grid>
+        </Canvas>
+    </Viewbox>
+</UserControl>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
@@ -32,6 +33,9 @@ namespace Platformer.Classes {
         public List<Rect> Bounds = [];
         //healthbars sprites (babe please, store this in corresponding entity)
         public Dictionary<Entity, ProgressBar> HealthBars = [];
+
+        public Stopwatch GameStopwatch = new();
+
         //other entities
         //private Entity Core;
         #endregion
@@ -96,7 +100,7 @@ namespace Platformer.Classes {
             return groundBlock;
         }
 
-        public void GenerateHero(MainWindow window, Player Hero, Point startPosition) {            
+        public void GenerateHero(Canvas canvas, Player Hero, Point startPosition) {            
             //sprite (rectangle) generation
             Rectangle heroSprite = new();
             heroSprite.Name = "playerSprite";
@@ -126,12 +130,12 @@ namespace Platformer.Classes {
 
             hero = Hero; //hero assignment
 
-            window.Canvas.Children.Add(hero.sprite);
-            AddHealthBar(window, hero, 50, 8, Brushes.Green);
+            canvas.Children.Add(hero.sprite);
+            AddHealthBar(canvas, hero, 50, 8, Brushes.Green);
             hero.Animate(hero.sprite);
         }
 
-        public void GenerateEnemy(MainWindow window, Enemy enemy, Point startPosition)
+        public void GenerateEnemy(Canvas canvas, Enemy enemy, Point startPosition)
         {
             //skeleton
             if (enemy.SpritePath == "Sprites/skeleton.png")
@@ -245,12 +249,12 @@ namespace Platformer.Classes {
             if (enemy.sprite != null)
                 Enemies.Add(enemy.sprite, enemy); //enemy assignment
 
-            window.Canvas.Children.Add(enemy.sprite);
-            AddHealthBar(window, enemy, 50, 5, Brushes.Red);
+            canvas.Children.Add(enemy.sprite);
+            AddHealthBar(canvas, enemy, 50, 5, Brushes.Red);
             enemy.Animate(enemy.sprite);
         }
 
-        public void AddHealthBar(MainWindow window, Entity entity, int width, int height, Brush brush)
+        public void AddHealthBar(Canvas canvas, Entity entity, int width, int height, Brush brush)
         {
             ProgressBar healthBar = new()
             {
@@ -262,101 +266,103 @@ namespace Platformer.Classes {
             };
             Canvas.SetLeft(healthBar, entity.HitBox.X);
             Canvas.SetTop(healthBar, entity.HitBox.Y);
-            window.Canvas.Children.Add(healthBar);
+            canvas.Children.Add(healthBar);
             HealthBars.Add(entity, healthBar);
         }
 
         //level managing
-        public void LoadLevel(MainWindow window, uint LevelIndex = 0) {
+        public void LoadLevel(Canvas canvas, uint LevelIndex = 0) {
             {
                 Enemies = [];
                 Bounds = [];
                 HealthBars = [];
-                window.Canvas.Children.Clear(); //clear canvas
             } //clear level
+            //canvas.Children.Clear(); //clear canvas
+            GameStopwatch.Restart();
+            GameStopwatch.Start();
             //load level map
             switch (LevelIndex) {
                 default:
                 case 0: {
                         {
                             //tiles with texture index of 0
-                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, window.Canvas, new(15, 1));
-                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, window.Canvas, new(13, 2));
-                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, window.Canvas, new(17, 10));
-                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, window.Canvas, new(14, 11));
+                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, canvas, new(15, 1));
+                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, canvas, new(13, 2));
+                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, canvas, new(17, 10));
+                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, canvas, new(14, 11));
 
                             //tiles with texture index of 1
-                            GenerateGroundBlock(32, new(8, 1), 1, 0, false, window.Canvas, new( 6, 12));
-                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, window.Canvas, new( 3, 11));
-                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, window.Canvas, new(15, 11));
-                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, window.Canvas, new( 0, 10));
-                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, window.Canvas, new(18, 10));
-                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, window.Canvas, new( 4,  3));
-                            GenerateGroundBlock(32, new(1, 1), 1, 0, false, window.Canvas, new(14,  2));
+                            GenerateGroundBlock(32, new(8, 1), 1, 0, false, canvas, new( 6, 12));
+                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new( 3, 11));
+                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new(15, 11));
+                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new( 0, 10));
+                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new(18, 10));
+                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new( 4,  3));
+                            GenerateGroundBlock(32, new(1, 1), 1, 0, false, canvas, new(14,  2));
 
                             //tiles with texture index of 2
-                            GenerateGroundBlock(32, new(1, 1), 2, 0, false, window.Canvas, new(3,  2));
-                            GenerateGroundBlock(32, new(1, 1), 2, 0, false, window.Canvas, new(6,  3));
-                            GenerateGroundBlock(32, new(1, 1), 2, 0, false, window.Canvas, new(2, 10));
-                            GenerateGroundBlock(32, new(1, 1), 2, 0, false, window.Canvas, new(5, 11));
+                            GenerateGroundBlock(32, new(1, 1), 2, 0, false, canvas, new(3,  2));
+                            GenerateGroundBlock(32, new(1, 1), 2, 0, false, canvas, new(6,  3));
+                            GenerateGroundBlock(32, new(1, 1), 2, 0, false, canvas, new(2, 10));
+                            GenerateGroundBlock(32, new(1, 1), 2, 0, false, canvas, new(5, 11));
                             
                             //texture index of 3 left unused
 
                             //tiles with texture index of 4
-                            GenerateGroundBlock(32, new(1, 1), 4, 0, false, window.Canvas, new(2, 2));
-                            GenerateGroundBlock(32, new(1, 1), 4, 0, false, window.Canvas, new(3, 3));
-                            GenerateGroundBlock(32, new(1, 1), 4, 1, false, window.Canvas, new(4, 4));
-                            GenerateGroundBlock(32, new(1, 1), 4, 0, false, window.Canvas, new(2, 11));
-                            GenerateGroundBlock(32, new(1, 1), 4, 0, false, window.Canvas, new(5, 12));
+                            GenerateGroundBlock(32, new(1, 1), 4, 0, false, canvas, new(2, 2));
+                            GenerateGroundBlock(32, new(1, 1), 4, 0, false, canvas, new(3, 3));
+                            GenerateGroundBlock(32, new(1, 1), 4, 1, false, canvas, new(4, 4));
+                            GenerateGroundBlock(32, new(1, 1), 4, 0, false, canvas, new(2, 11));
+                            GenerateGroundBlock(32, new(1, 1), 4, 0, false, canvas, new(5, 12));
 
                             //tiles with texture index of 5
-                            GenerateGroundBlock(32, new(1, 1), 5, 0, false, window.Canvas, new(16, 0));
+                            GenerateGroundBlock(32, new(1, 1), 5, 0, false, canvas, new(16, 0));
 
                             //tiles with texture index of 6
-                            GenerateGroundBlock(32, new( 2, 5), 6, 0, false, window.Canvas, new( 0,  0));
-                            GenerateGroundBlock(32, new( 1, 2), 6, 0, false, window.Canvas, new( 2,  3));
-                            GenerateGroundBlock(32, new( 1, 1), 6, 0, false, window.Canvas, new( 3,  4));
-                            GenerateGroundBlock(32, new( 2, 4), 6, 0, false, window.Canvas, new( 0, 11));
-                            GenerateGroundBlock(32, new( 3, 3), 6, 0, false, window.Canvas, new( 2, 12));
-                            GenerateGroundBlock(32, new(10, 2), 6, 0, false, window.Canvas, new( 5, 13));
-                            GenerateGroundBlock(32, new( 3, 3), 6, 0, false, window.Canvas, new(15, 12));
-                            GenerateGroundBlock(32, new( 2, 4), 6, 0, false, window.Canvas, new(18, 11));
-                            GenerateGroundBlock(32, new( 3, 5), 6, 0, false, window.Canvas, new(17,  0));
-                            GenerateGroundBlock(32, new( 1, 2), 6, 0, false, window.Canvas, new(16,  2));
-                            GenerateGroundBlock(32, new( 1, 1), 6, 0, false, window.Canvas, new(15,  3));
+                            GenerateGroundBlock(32, new( 2, 5), 6, 0, false, canvas, new( 0,  0));
+                            GenerateGroundBlock(32, new( 1, 2), 6, 0, false, canvas, new( 2,  3));
+                            GenerateGroundBlock(32, new( 1, 1), 6, 0, false, canvas, new( 3,  4));
+                            GenerateGroundBlock(32, new( 2, 4), 6, 0, false, canvas, new( 0, 11));
+                            GenerateGroundBlock(32, new( 3, 3), 6, 0, false, canvas, new( 2, 12));
+                            GenerateGroundBlock(32, new(10, 2), 6, 0, false, canvas, new( 5, 13));
+                            GenerateGroundBlock(32, new( 3, 3), 6, 0, false, canvas, new(15, 12));
+                            GenerateGroundBlock(32, new( 2, 4), 6, 0, false, canvas, new(18, 11));
+                            GenerateGroundBlock(32, new( 3, 5), 6, 0, false, canvas, new(17,  0));
+                            GenerateGroundBlock(32, new( 1, 2), 6, 0, false, canvas, new(16,  2));
+                            GenerateGroundBlock(32, new( 1, 1), 6, 0, false, canvas, new(15,  3));
 
                             //tiles with texture index of 7
-                            GenerateGroundBlock(32, new(1, 2), 7, 0, false, window.Canvas, new(2, 0));
+                            GenerateGroundBlock(32, new(1, 2), 7, 0, false, canvas, new(2, 0));
 
                             //texture index of 8 left unused
 
                             //tiles with texture index of 9
-                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, window.Canvas, new(16,  1));
-                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, window.Canvas, new(15,  2));
-                            GenerateGroundBlock(32, new(1, 1), 9, 3, false, window.Canvas, new(14,  3));
-                            GenerateGroundBlock(32, new(1, 1), 9, 3, false, window.Canvas, new(16,  4));
-                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, window.Canvas, new(17, 11));
-                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, window.Canvas, new(14, 12));
+                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(16,  1));
+                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(15,  2));
+                            GenerateGroundBlock(32, new(1, 1), 9, 3, false, canvas, new(14,  3));
+                            GenerateGroundBlock(32, new(1, 1), 9, 3, false, canvas, new(16,  4));
+                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(17, 11));
+                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(14, 12));
 
                             //tiles with texture index of 10
-                            GenerateGroundBlock(32, new(1, 1), 10, 0, false, window.Canvas, new(13, 3));
-                            GenerateGroundBlock(32, new(1, 1), 10, 0, false, window.Canvas, new(14, 4));
-                            GenerateGroundBlock(32, new(1, 1), 10, 0, false, window.Canvas, new(16, 5));
+                            GenerateGroundBlock(32, new(1, 1), 10, 0, false, canvas, new(13, 3));
+                            GenerateGroundBlock(32, new(1, 1), 10, 0, false, canvas, new(14, 4));
+                            GenerateGroundBlock(32, new(1, 1), 10, 0, false, canvas, new(16, 5));
 
                             //tiles with texture index of 11                 
-                            GenerateGroundBlock(32, new(4, 1), 11, 0, false, window.Canvas, new( 0, 5));
-                            GenerateGroundBlock(32, new(1, 1), 11, 0, false, window.Canvas, new( 5, 4));
-                            GenerateGroundBlock(32, new(1, 1), 11, 0, false, window.Canvas, new(15, 4));
-                            GenerateGroundBlock(32, new(3, 1), 11, 0, false, window.Canvas, new(17, 5));
+                            GenerateGroundBlock(32, new(4, 1), 11, 0, false, canvas, new( 0, 5));
+                            GenerateGroundBlock(32, new(1, 1), 11, 0, false, canvas, new( 5, 4));
+                            GenerateGroundBlock(32, new(1, 1), 11, 0, false, canvas, new(15, 4));
+                            GenerateGroundBlock(32, new(3, 1), 11, 0, false, canvas, new(17, 5));
 
                             //tiles with texture index of 12
-                            GenerateGroundBlock(32, new(1, 1), 12, 0, false, window.Canvas, new(6, 4));
-                            GenerateGroundBlock(32, new(1, 1), 12, 0, false, window.Canvas, new(4, 5));
+                            GenerateGroundBlock(32, new(1, 1), 12, 0, false, canvas, new(6, 4));
+                            GenerateGroundBlock(32, new(1, 1), 12, 0, false, canvas, new(4, 5));
 
                             //texture indecies of 13 and 14 left unused
                         } //load level landscape
 
-                        GenerateHero(window,
+                        GenerateHero(canvas,
                             new Player(speed: 5,
                                        jumpSpeed: 7,
                                        jumpForce: 7,
@@ -367,7 +373,7 @@ namespace Platformer.Classes {
                                        isAnimated_: true),
                             new(10, 480 / 2));
 
-                        GenerateEnemy(window,
+                        GenerateEnemy(canvas,
                             new Enemy(speed: 2,
                                       jumpSpeed: 7,
                                       jumpForce: 7,
@@ -379,7 +385,7 @@ namespace Platformer.Classes {
                                       isFlying: false),
                             new(640, 480 / 2));
 
-                        GenerateEnemy(window,
+                        GenerateEnemy(canvas,
                             new Enemy(speed: 3,
                                       jumpSpeed: 7,
                                       jumpForce: 7,
@@ -391,7 +397,7 @@ namespace Platformer.Classes {
                                       isFlying: false),
                             new(640, 480 / 2));
 
-                        GenerateEnemy(window,
+                        GenerateEnemy(canvas,
                             new Enemy(speed: 4,
                                       jumpSpeed: 7,
                                       jumpForce: 7,
@@ -403,7 +409,7 @@ namespace Platformer.Classes {
                                       isFlying: false),
                             new(640, 480 / 2));
 
-                        GenerateEnemy(window,
+                        GenerateEnemy(canvas,
                             new Enemy(speed: 4,
                                       jumpSpeed: 7,
                                       jumpForce: 7,
@@ -414,7 +420,6 @@ namespace Platformer.Classes {
                                       isAnimated_: true,
                                       isFlying: true),
                             new(640 / 2, 480 / 4));
-
                         break;
                     }
             }

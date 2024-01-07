@@ -1,0 +1,25 @@
+﻿<Window x:Class="Platformer.Windows.GameOverWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Platformer.Windows"
+        mc:Ignorable="d"
+        Title="GameOverWindow"
+        ResizeMode="NoResize" WindowStartupLocation="CenterOwner" WindowStyle="None"
+        Height="358" Width="623">
+    <Border BorderBrush="#fdcb66" BorderThickness="7">
+        <StackPanel Background="#d54e17">
+            <TextBlock FontFamily="../Fonts/#Minecraft Seven Cyrillic (russian)" Foreground="Black" 
+                   TextAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center" FontSize="72" >
+            Game over
+            </TextBlock>
+            <TextBlock Name="Time" FontFamily="../Fonts/#Minecraft Seven Cyrillic (russian)" Foreground="Black" 
+                       TextAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center" FontSize="40" Margin="0 20 0 0">
+            Time: 00:00
+            </TextBlock>
+            <Button Style="{DynamicResource ButtonStyle1}" Content="Exit" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="75" Width="300"
+                Margin="0 20 0 0" Click="ExitButtonCallback"/>
+        </StackPanel>
+    </Border>
+</Window>

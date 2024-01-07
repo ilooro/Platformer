@@ -4,41 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Platformer"
+        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
         mc:Ignorable="d"
         Title="Hell's gatekeeper (DEMO)"
         WindowStartupLocation ="CenterScreen"
-        Width="854"
-        Height="480">
+        WindowState="Maximized"
+        WindowStyle="None"
+        Background="Black">
     <!--16:9 resolution-->
-    <Window.Background>
-        <!--GIF animated background (performance issues; also, uncomment line in MediaEndedCallback method)-->
-        <!--<VisualBrush Stretch="Fill">                    -->
-        <!--    <VisualBrush.Visual>                        -->
-        <!--        <MediaElement                           -->
-        <!--            Name="backgroundGIF"                -->
-        <!--            LoadedBehavior="Play"               -->
-        <!--            MediaEnded="MediaEndedCallback"     -->
-        <!--            Source="Textures/animated_cave.gif">-->
-        <!--        </MediaElement>                         -->
-        <!--    </VisualBrush.Visual>                       -->
-        <!--</VisualBrush>                                  -->
-        <ImageBrush ImageSource="Textures/medieval_battle.jpg" Stretch="UniformToFill"></ImageBrush>
-    </Window.Background>
-    <Viewbox Name="Viewbox" Stretch="Uniform">
-        <Canvas Name="Canvas" Focusable="True" KeyDown="CanvasKeyDownCallback" KeyUp="CanvasKeyUpCallback" ClipToBounds="True" Width="640" Height="480">
-            <Canvas.Background>
-                <!--GIF animated background (performance issues; also, uncomment line in MediaEndedCallback method)-->
-                <!--<VisualBrush Stretch="UniformToFill">      -->
-                <!--    <VisualBrush.Visual>                   -->
-                <!--        <MediaElement Name="backgroundGIF" -->
-                <!--            LoadedBehavior="Play"          -->
-                <!--            MediaEnded="MediaEndedCallback"-->
-                <!--            Source="Textures/cave.gif"/>   -->
-                <!--    </VisualBrush.Visual>                  -->
-                <!--</VisualBrush>                             -->
-                <ImageBrush ImageSource="Textures/cave.png" Stretch="UniformToFill"></ImageBrush>
-            </Canvas.Background>
-        </Canvas>
-    </Viewbox>
+    
     <!--4:3 resolution-->
 </Window>
