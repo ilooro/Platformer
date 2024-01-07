@@ -31,13 +31,12 @@ namespace Platformer.Classes {
 
         public List<Rect> Bounds = [];
 
-        //other entities
+        //other attributes
         //private Entity Core;
-        //private List<Enemy> monsters;
         #endregion
         #region Methods
         //get tiling texture
-        static private Rectangle GenerateGroundBlock(uint tileSize, Vector2 sizeInTiles, uint tileIndex, uint rotate = 0, bool invert = false, Canvas? canvas = null, Vector2? placement = null) {
+        private Rectangle GenerateGroundBlock(uint tileSize, Vector2 sizeInTiles, uint tileIndex, uint rotate = 0, bool invert = false, Canvas? canvas = null, Vector2? placement = null) {
             Rectangle groundBlock = new();
             {
                 groundBlock.Name = "ground";
@@ -45,7 +44,7 @@ namespace Platformer.Classes {
                 groundBlock.Width = sizeInTiles.X;
                 groundBlock.Height = sizeInTiles.Y;
 
-                BitmapImage tileTexture = new(new(@"Textures/stonetiles.png", UriKind.Relative));
+                BitmapImage tileTexture = new BitmapImage(new Uri("pack://application:,,,/Textures/stone_tiles.png"));
                 Vector2 tileLayout = new((uint)tileTexture.Width / tileSize, (uint)tileTexture.Height / tileSize);
                 Vector2 tilingFactor = new(1.0f / (uint)tileLayout.X, 1.0f / (uint)tileLayout.Y);
                 ImageBrush tileImageBrush = new();
@@ -66,6 +65,7 @@ namespace Platformer.Classes {
                     transformation.Children.Add(new RotateTransform(rotate * 90.0, 0.5, 0.5));
 
                     tileImageBrush.RelativeTransform = transformation;
+
                 } //tiling brush generation
 
                 groundBlock.Fill = tileImageBrush;
@@ -90,8 +90,7 @@ namespace Platformer.Classes {
             } //ground block drawing
 
             // Save to list for performance
-            Bounds.Add(new Rect(Canvas.GetLeft(groundBlock), Canvas.GetTop(groundBlock),
-                groundBlock.Width, groundBlock.Height));
+            Bounds.Add(new Rect(Canvas.GetLeft(groundBlock), Canvas.GetTop(groundBlock), groundBlock.Width, groundBlock.Height));
 
             return groundBlock;
         }

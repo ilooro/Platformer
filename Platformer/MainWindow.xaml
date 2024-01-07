@@ -11,21 +11,21 @@
         Height="480">
     <!--16:9 resolution-->
     <Window.Background>
-        <ImageBrush ImageSource="Textures/medieval_battle_4.jpg" Stretch="UniformToFill"></ImageBrush>
+        <ImageBrush ImageSource="Textures/medieval_battle.jpg" Stretch="UniformToFill"></ImageBrush>
     </Window.Background>
     <Viewbox Name="Viewbox" Stretch="Uniform">
         <Canvas Name="Canvas" Focusable="True" KeyDown="CanvasKeyDownCallback" KeyUp="CanvasKeyUpCallback" ClipToBounds="True" Width="640" Height="480">
             <Canvas.Background>
-                <!--GIF animated background (performance issues)-->
+                <!--GIF animated background (performance issues; also, for usage must uncomment MediaEndedCallback method)-->
                 <!--<VisualBrush Stretch="UniformToFill">             -->
                 <!--    <VisualBrush.Visual>                          -->
                 <!--        <MediaElement Name="backgroundGIF"        -->
                 <!--            LoadedBehavior="Play"                 -->
                 <!--            MediaEnded="MediaEndedCallback"       -->
-                <!--            Source="Textures/cave_original.gif"/> -->
+                <!--            Source="Textures/cave.gif"/>          -->
                 <!--    </VisualBrush.Visual>                         -->
                 <!--</VisualBrush>                                    -->
-                <ImageBrush ImageSource="Textures/cave_1.png" Stretch="UniformToFill"></ImageBrush>
+                <ImageBrush ImageSource="Textures/cave.png" Stretch="UniformToFill"></ImageBrush>
             </Canvas.Background>
         </Canvas>
     </Viewbox>
