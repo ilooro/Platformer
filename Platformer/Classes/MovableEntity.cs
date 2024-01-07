@@ -10,19 +10,20 @@ using System.Windows.Input;
 namespace Platformer.Classes
 {
     internal class MovableEntity(double speed, double jumpSpeed, int jumpForce, Rect hitBox,
-        int heatPoint, int attackPower, bool autoJump = false) : Entity(heatPoint, attackPower)
+        int heatPoint, int attackPower, int attackSpeed, bool autoJump = false) : Entity(heatPoint, attackPower, attackSpeed, hitBox)
     {
-        public Rect HitBox = hitBox;
-        protected double _speed = speed;
-        private double _inputHorOffset = 0;
-
+        public double Speed { get; set; } = speed;
+        public double JumpSpeed { get; set; } = jumpSpeed;
+        public int JumpForce { get; set; } = jumpForce;
         public double Gravity { get; set; } = 12;
+
+        private double _inputHorOffset = 0;
         private int _currentJumpForce = 0;
         private bool _isJumping = false;
         private bool _onFloor = false;
 
-        public double X { get; private set; } = 0;
-        public double Y { get; private set; } = 0;
+        public double X { get; private set; } = hitBox.X;
+        public double Y { get; private set; } = hitBox.Y;
 
         public Point GetCenter()
         {
@@ -33,13 +34,14 @@ namespace Platformer.Classes
         {
             if (isFlying)
             {
-                if (HitBox.Right < target.Left || HitBox.Left > target.Right)
+                if (/*HitBox.Right < target.Left || HitBox.Left > target.Right*/
+                    !HitBox.IntersectsWith(target))
                 {
                     var direction = new Point(target.X + target.Width / 2,
                         target.Y + target.Height / 2) - GetCenter();
                     double len = direction.Length;
-                    double horOffset = _speed * direction.X / len;
-                    double verOffset = _speed * direction.Y / len;
+                    double horOffset = Speed * direction.X / len;
+                    double verOffset = Speed * direction.Y / len;
                     Transform(boxes, horOffset, verOffset);
                 }
                 else
@@ -66,7 +68,7 @@ namespace Platformer.Classes
                 _isJumping = false;
             if (_isJumping)
             {
-                verOffset = -jumpSpeed;
+                verOffset = -JumpSpeed;
                 _currentJumpForce--;
             }
 
@@ -132,8 +134,8 @@ namespace Platformer.Classes
             X = HitBox.X;
             Y = HitBox.Y;
         }
-        public void MoveLeft() { _inputHorOffset = -_speed; }
-        public void MoveRight() { _inputHorOffset = _speed; }
+        public void MoveLeft() { _inputHorOffset = -Speed; }
+        public void MoveRight() { _inputHorOffset = Speed; }
 
         public void StopLeft()
         {
@@ -154,7 +156,7 @@ namespace Platformer.Classes
             if (!_isJumping && _onFloor)
             {
                 _isJumping = true;
-                _currentJumpForce = jumpForce;
+                _currentJumpForce = JumpForce;
             }
         }
     }
