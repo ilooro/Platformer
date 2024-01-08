@@ -583,7 +583,7 @@ namespace Platformer.Classes {
                                        attackSpeed: 5,
                                        spritePath: "Sprites/medieval_king.png",
                                        isAnimated_: true),
-                            new(10, 480 / 2));
+                            new(400, 480 / 2));
 
                             GenerateEnemy(canvas,
                                 new Enemy(speed: 4,
@@ -598,8 +598,8 @@ namespace Platformer.Classes {
                                 new(180, 160),
                                 false);
 
-                            GroundSpawnPosition = [new(0, 240), new(830, 240)];
-                            FlingSpawnPosition = [new(0, 240), new(300, 100), new(830, 240), new(500, 100)];
+                            GroundSpawnPosition = [new(-32, 300), new(870, 300)];
+                            FlingSpawnPosition = [new(-32, 300), new(300, -32), new(870, 300), new(500, -32)];
                         } //load hero and enemies
 
                         //add spawn positions here
