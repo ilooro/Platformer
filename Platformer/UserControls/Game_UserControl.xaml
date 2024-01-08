@@ -10,13 +10,8 @@
     <Viewbox Name="Viewbox" Stretch="UniformToFill">
         <Canvas Name="Canvas" Focusable="True" ClipToBounds="True" Width="845" Height="480" KeyDown="CanvasKeyDownCallback" KeyUp="CanvasKeyUpCallback">
             <Image gif:AnimationBehavior.SourceUri="../Textures/cave_original_upscale_crop.gif" gif:AnimationBehavior.AnimateInDesignMode="True" Height="480" Width="845"/>
-<<<<<<< HEAD
             <TextBlock x:Name="TimerDisplay" FontFamily="{StaticResource MinecraftSeven}" Foreground="White" 
-                      TextAlignment="Center" FontSize="35" Canvas.Right="0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-=======
-            <TextBlock x:Name="TimerDisplay" FontFamily="../Fonts/#Minecraft Seven Cyrillic (russian)" Foreground="White" 
                       TextAlignment="Center" FontSize="35" Canvas.Right="0" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="2"/>
->>>>>>> 34e4127f58146d68169a8acdce576dfb4e6dbebe
         </Canvas>
     </Viewbox>
 </UserControl>

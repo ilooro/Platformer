@@ -468,13 +468,10 @@ namespace Platformer.Classes {
                             //tiles with texture index of 12
                             GenerateGroundBlock(32, new(1, 1), 12, 0, false, canvas, new(6, 4));
                             GenerateGroundBlock(32, new(1, 1), 12, 0, false, canvas, new(4, 5));
-<<<<<<< HEAD
-=======
                             
                             // Screen walls
                             GenerateGroundBlock(32, new(1, 16), 0, 0, false, canvas, new(-1, 0));
                             GenerateGroundBlock(32, new(1, 16), 0, 0, false, canvas, new(27, 0));
->>>>>>> 34e4127f58146d68169a8acdce576dfb4e6dbebe
 
                             //texture indecies of 13 and 14 left unused
                         } //load level landscape
@@ -490,56 +487,10 @@ namespace Platformer.Classes {
                                        spritePath: "Sprites/medieval_king.png",
                                        isAnimated_: true),
                             new(400, 480 / 2));
+                        } //load hero
 
-<<<<<<< HEAD
-                            GenerateEnemy(canvas,
-                                new Enemy(speed: 2,
-                                          jumpSpeed: 7,
-                                          jumpForce: 7,
-                                          heatPoint: 10,
-                                          attackPower: 1,
-                                          attackSpeed: 30,
-                                          spritePath: "Sprites/skeleton.png",
-                                          isAnimated_: true,
-                                          isFlying: false),
-                                new(640, 480 / 2));
-
-                            GenerateEnemy(canvas,
-                                new Enemy(speed: 3,
-                                          jumpSpeed: 7,
-                                          jumpForce: 7,
-                                          heatPoint: 3,
-                                          attackPower: 1,
-                                          attackSpeed: 50,
-                                          spritePath: "Sprites/mushroom.png",
-                                          isAnimated_: true,
-                                          isFlying: false),
-                                new(640, 480 / 2));
-
-                            GenerateEnemy(canvas,
-                                new Enemy(speed: 4,
-                                          jumpSpeed: 7,
-                                          jumpForce: 7,
-                                          heatPoint: 5,
-                                          attackPower: 1,
-                                          attackSpeed: 30,
-                                          spritePath: "Sprites/goblin.png",
-                                          isAnimated_: true,
-                                          isFlying: false),
-                                new(640, 480 / 2));
-
-                            GenerateEnemy(canvas,
-                                new Enemy(speed: 4,
-                                          jumpSpeed: 7,
-                                          jumpForce: 7,
-                                          heatPoint: 5,
-                                          attackPower: 1,
-                                          attackSpeed: 20,
-                                          spritePath: "Sprites/flying_eye.png",
-                                          isAnimated_: true,
-                                          isFlying: true),
-                                new(640 / 2, 480 / 4));
-                        } //load hero (and entities temp)
+                        GroundSpawnPosition = [new(0, 240), new(830, 240)];
+                        FlingSpawnPosition = [new(0, 240), new(300, 100), new(830, 240), new(500, 100)];
 
                         break;
                     }
@@ -648,10 +599,7 @@ namespace Platformer.Classes {
                                 false);
                         } //load hero and enemies
 
-=======
-                        GroundSpawnPosition = [new(0, 240), new(830, 240)];
-                        FlingSpawnPosition = [new(0, 240), new(300, 100), new(830, 240), new(500, 100)];
->>>>>>> 34e4127f58146d68169a8acdce576dfb4e6dbebe
+                        //add spawn positions here
                         break;
                     }
             }
