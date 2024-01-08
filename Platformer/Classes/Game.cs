@@ -521,7 +521,7 @@ namespace Platformer.Classes {
                             GenerateGroundBlock(32, new(1, 1), 3, 1, false, canvas, new(6, 6));
                             GenerateGroundBlock(32, new(1, 3), 6, 0, false, canvas, new(0, 0));
                             GenerateGroundBlock(32, new(2, 2), 6, 0, false, canvas, new(1, 0));
-                            GenerateGroundBlock(32, new(2, 1), 6, 0, false, canvas, new(3, 0));
+                            GenerateGroundBlock(32, new(1, 1), 6, 0, false, canvas, new(3, 0));
                             GenerateGroundBlock(32, new(1, 1), 10, 0, false, canvas, new(20, 0));
                             GenerateGroundBlock(32, new(2, 1), 11, 0, false, canvas, new(21, 0));
                             GenerateGroundBlock(32, new(1, 1), 4, 2, false, canvas, new(23, 0));
@@ -542,7 +542,7 @@ namespace Platformer.Classes {
                             GenerateGroundBlock(32, new(1, 1), 8, 0, false, canvas, new(23, 5));
                             GenerateGroundBlock(32, new(1, 1), 12, 0, false, canvas, new(23, 6));
                             GenerateGroundBlock(32, new(1, 1), 13, 1, false, canvas, new(22, 6));
-                            GenerateGroundBlock(32, new(2, 1), 6, 0, false, canvas, new(23, 0));
+                            GenerateGroundBlock(32, new(1, 1), 6, 0, false, canvas, new(24, 0));
                             GenerateGroundBlock(32, new(2, 2), 6, 0, false, canvas, new(25, 0));
                             GenerateGroundBlock(32, new(1, 3), 6, 0, false, canvas, new(27, 0));
                             GenerateGroundBlock(32, new(6, 1), 1, 0, false, canvas, new(-2, 13));
@@ -560,9 +560,9 @@ namespace Platformer.Classes {
                             GenerateGroundBlock(32, new(1, 1), 2, 0, false, canvas, new(19, 11));
                             GenerateGroundBlock(32, new(1, 1), 4, 0, false, canvas, new(19, 12));
                             GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new(20, 12));
-                            GenerateGroundBlock(32, new(1, 1), 2, 0, false, canvas, new(21, 12));
-                            GenerateGroundBlock(32, new(1, 1), 4, 0, false, canvas, new(21, 13));
-                            GenerateGroundBlock(32, new(7, 1), 1, 0, false, canvas, new(22, 13));
+                            GenerateGroundBlock(32, new(1, 1), 2, 0, false, canvas, new(22, 12));
+                            GenerateGroundBlock(32, new(1, 1), 4, 0, false, canvas, new(22, 13));
+                            GenerateGroundBlock(32, new(7, 1), 1, 0, false, canvas, new(23, 13));
                             GenerateGroundBlock(32, new(5, 1), 6, 0, false, canvas, new(0, 14));
                             GenerateGroundBlock(32, new(4, 2), 6, 0, false, canvas, new(5, 13));
                             GenerateGroundBlock(32, new(4, 2), 6, 0, false, canvas, new(5, 13));
