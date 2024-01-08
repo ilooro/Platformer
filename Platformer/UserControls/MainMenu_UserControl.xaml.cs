@@ -30,7 +30,7 @@ namespace Platformer.UserControls
 
         private void LeadertableButtonCallback(object sender, RoutedEventArgs e)
         {
-
+            (Parent as Window).Content = new Leaderboard_UserControl();
         }
 
         private void ExitButtonCallback(object sender, RoutedEventArgs e)

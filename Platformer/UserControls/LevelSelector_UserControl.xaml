@@ -26,18 +26,18 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock x:Name="MainMenuTitle" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" FontFamily="{StaticResource MinecraftSeven}" Foreground="Black" 
-                      TextAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center" FontSize="72" Margin="0,325,0,100" Width="544">
+                      TextAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center" FontSize="72" Margin="0,337,0,88" Width="544">
                         Select level
                 </TextBlock>
 
-                <Button Style="{DynamicResource ButtonStyle1}" Content="1"  HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="120" Width="125"
-                        Click="Level1ButtonCallback"/>
-                <Button Style="{DynamicResource ButtonStyle1}" Content="2"  HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="120" Width="125"
-                        Click="Level2ButtonCallback"/>
-                <Button Style="{DynamicResource ButtonStyle1}" Content="Back"  HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                    Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="75" Width="300"
+                <Button Style="{DynamicResource ButtonStyle1}" Content="1"  HorizontalAlignment="Center" VerticalAlignment="Top"
+                    Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="120" Width="124"
+                        Click="Level1ButtonCallback" Margin="0,86,0,0" Grid.RowSpan="2"/>
+                <Button Style="{DynamicResource ButtonStyle1}" Content="2"  HorizontalAlignment="Center" VerticalAlignment="Top"
+                    Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="120" Width="124"
+                        Click="Level2ButtonCallback" Margin="0,86,0,0" Grid.RowSpan="2"/>
+                <Button Style="{DynamicResource ButtonStyle1}" Content="Back"  HorizontalAlignment="Center" VerticalAlignment="Top"
+                    Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="75" Width="300"
                         Click="BackButtonCallback"/>
 
             </Grid>
