@@ -40,11 +40,13 @@ namespace Platformer.UserControls
 
         private void CustomRender(object? sender, EventArgs e)
         {
+            platformer.GenerateEnemies(Canvas);
+
             TimeSpan time = platformer.GameStopwatch.Elapsed;
             TimerDisplay.Text = $"{time.Minutes:00}:{time.Seconds:00}";
             if (platformer.hero.currState == AnimationState.Death &&
                 platformer.hero.prevState == AnimationState.Death &&
-                platformer.hero.currFrame == 0)
+                platformer.hero.currFrame == 0 || platformer.hero.Y > 1000)
             {
                 platformer.GameStopwatch.Stop();
                 platformer.engine.Timer.Stop();
