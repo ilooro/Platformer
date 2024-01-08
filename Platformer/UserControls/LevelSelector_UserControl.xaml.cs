@@ -24,11 +24,11 @@ namespace Platformer.UserControls
 
         private void Level1ButtonCallback(object sender, RoutedEventArgs e)
         {
-            (Parent as Window).Content = new Game_UserControl();
+            (Parent as Window).Content = new Game_UserControl(1);
         }
         private void Level2ButtonCallback(object sender, RoutedEventArgs e)
         {
-            
+            (Parent as Window).Content = new Game_UserControl(2);
         }
 
         private void BackButtonCallback(object sender, RoutedEventArgs e)

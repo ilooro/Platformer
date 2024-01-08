@@ -229,7 +229,7 @@ namespace Platformer.UserControls
         } //for GIF background animation
 
         //constructors
-        public Game_UserControl()
+        public Game_UserControl(uint levelNum)
         {
             //application initialization
             InitializeComponent();
@@ -243,7 +243,7 @@ namespace Platformer.UserControls
             platformer = new(new(CustomRender));
 
             //load first game level (main menu load should be here as level 0)
-            platformer.LoadLevel(Canvas, 0);
+            platformer.LoadLevel(Canvas, levelNum - 1);
         } //default constructor
         #endregion
     }

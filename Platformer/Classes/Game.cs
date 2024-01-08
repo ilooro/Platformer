@@ -597,6 +597,9 @@ namespace Platformer.Classes {
                                           isFlying: true),
                                 new(180, 160),
                                 false);
+
+                            GroundSpawnPosition = [new(0, 240), new(830, 240)];
+                            FlingSpawnPosition = [new(0, 240), new(300, 100), new(830, 240), new(500, 100)];
                         } //load hero and enemies
 
                         //add spawn positions here
