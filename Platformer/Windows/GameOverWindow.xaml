@@ -10,11 +10,11 @@
         Height="358" Width="623">
     <Border BorderBrush="#fdcb66" BorderThickness="7">
         <StackPanel Background="#d54e17">
-            <TextBlock FontFamily="../Fonts/#Minecraft Seven Cyrillic (russian)" Foreground="Black" 
+            <TextBlock FontFamily="{StaticResource MinecraftSeven}" Foreground="Black" 
                    TextAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center" FontSize="72" >
             Game over
             </TextBlock>
-            <TextBlock Name="Time" FontFamily="../Fonts/#Minecraft Seven Cyrillic (russian)" Foreground="Black" 
+            <TextBlock Name="Time" FontFamily="{StaticResource MinecraftSeven}" Foreground="Black" 
                        TextAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center" FontSize="40" Margin="0 20 0 0">
             Time: 00:00
             </TextBlock>

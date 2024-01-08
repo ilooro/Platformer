@@ -4,7 +4,8 @@
              xmlns:local="clr-namespace:Platformer"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        
+        <FontFamily x:Key="MinecraftSeven">pack://application:,,,/Fonts/#Minecraft Seven Cyrillic (russian)</FontFamily>
+        <FontFamily x:Key="MinecraftTen">pack://application:,,,/Fonts/#Minecraft Ten font cyrillic</FontFamily>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -30,7 +31,7 @@
             <Setter Property="Foreground" Value="#fdcb66"/>
             <Setter Property="BorderThickness" Value="5"/>
             <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontFamily" Value="../Fonts/#Minecraft Seven Cyrillic (russian)"/>
+            <Setter Property="FontFamily" Value="{StaticResource MinecraftSeven}"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Padding" Value="1"/>

@@ -10,7 +10,7 @@
         Height="338" Width="527">
     <Border BorderBrush="#fdcb66" BorderThickness="7">
         <StackPanel Background="#d54e17">
-            <TextBlock FontFamily="../Fonts/#Minecraft Seven Cyrillic (russian)" Foreground="Black" 
+            <TextBlock FontFamily="{StaticResource MinecraftSeven}" Foreground="Black" 
                        TextAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center" FontSize="72" >
                 Pause
             </TextBlock>

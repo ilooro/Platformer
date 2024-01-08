@@ -49,8 +49,12 @@
   </ItemGroup>
 	
 	<ItemGroup>
-		<Content Include="Fonts\minecraft-ten-font-cyrillic.ttf" />
-		<Resource Include="Fonts\Minecraft Seven_2.ttf" />
+		<Resource Include="Fonts\minecraft-ten-font-cyrillic.ttf">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Fonts\Minecraft Seven_2.ttf">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
 	</ItemGroup>
 	
 	<ItemGroup>

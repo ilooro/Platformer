@@ -21,7 +21,7 @@
 
                 <Grid Grid.Row="0" Height="130" Width="950" VerticalAlignment="Top" Margin="485,287,485,0">
                     <Rectangle Stroke="Black" StrokeThickness="10"/>
-                    <TextBlock x:Name="MainMenuTitle" FontFamily="../Fonts/#Minecraft Ten font cyrillic" Foreground="Black" 
+                    <TextBlock x:Name="MainMenuTitle" FontFamily="{StaticResource MinecraftSeven}" Foreground="Black" 
                           TextAlignment="Center" HorizontalAlignment="Center" FontSize="72">
                     Hell's gatekeeper
                     </TextBlock>

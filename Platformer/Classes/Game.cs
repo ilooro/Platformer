@@ -76,6 +76,7 @@ namespace Platformer.Classes {
                 groundBlock.Fill = tileImageBrush;
 
                 //tile seams workaround fix
+                //groundBlock.Stroke = new SolidColorBrush(Colors.Red); //temporary (to see seams clearly)
                 groundBlock.Stroke = new SolidColorBrush(Color.FromRgb(20, 12, 28));
                 groundBlock.StrokeThickness = 1.1f;
             } //ground block generation
@@ -108,7 +109,7 @@ namespace Platformer.Classes {
             heroSprite.Width = 160;
             Hero.sprite = heroSprite;
             Hero.HitBox = new Rect(startPosition.X, startPosition.Y, 20, 40);
-            Hero.hitBoxOffset = new(71, 61);
+            Hero.hitBoxOffset = new(71, 65);
             Canvas.SetLeft(heroSprite, startPosition.X - ((Point)Hero.hitBoxOffset).X);
             Canvas.SetTop(heroSprite, startPosition.Y - ((Point)Hero.hitBoxOffset).Y);
 
@@ -135,7 +136,7 @@ namespace Platformer.Classes {
             hero.Animate(hero.sprite);
         }
 
-        public void GenerateEnemy(Canvas canvas, Enemy enemy, Point startPosition)
+        public void GenerateEnemy(Canvas canvas, Enemy enemy, Point startPosition, bool addHealthBar = true)
         {
             //skeleton
             if (enemy.SpritePath == "Sprites/skeleton.png")
@@ -250,7 +251,10 @@ namespace Platformer.Classes {
                 Enemies.Add(enemy.sprite, enemy); //enemy assignment
 
             canvas.Children.Add(enemy.sprite);
-            AddHealthBar(canvas, enemy, 50, 5, Brushes.Red);
+
+            if (addHealthBar)
+                AddHealthBar(canvas, enemy, 50, 5, Brushes.Red);
+
             enemy.Animate(enemy.sprite);
         }
 
@@ -292,20 +296,20 @@ namespace Platformer.Classes {
                             GenerateGroundBlock(32, new(1, 1), 0, 0, false, canvas, new(21, 11));
 
                             //tiles with texture index of 1
-                            GenerateGroundBlock(32, new(15, 1), 1, 0, false, canvas, new( 6, 12));
-                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new( 3, 11));
+                            GenerateGroundBlock(32, new(15, 1), 1, 0, false, canvas, new(6, 12));
+                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new(3, 11));
                             GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new(22, 11));
-                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new( 0, 10));
+                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new(0, 10));
                             GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new(25, 10));
-                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new( 4,  3));
-                            GenerateGroundBlock(32, new(1, 1), 1, 0, false, canvas, new(21,  2));
+                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new(4, 3));
+                            GenerateGroundBlock(32, new(1, 1), 1, 0, false, canvas, new(21, 2));
 
                             //tiles with texture index of 2
-                            GenerateGroundBlock(32, new(1, 1), 2, 0, false, canvas, new(3,  2));
-                            GenerateGroundBlock(32, new(1, 1), 2, 0, false, canvas, new(6,  3));
+                            GenerateGroundBlock(32, new(1, 1), 2, 0, false, canvas, new(3, 2));
+                            GenerateGroundBlock(32, new(1, 1), 2, 0, false, canvas, new(6, 3));
                             GenerateGroundBlock(32, new(1, 1), 2, 0, false, canvas, new(2, 10));
                             GenerateGroundBlock(32, new(1, 1), 2, 0, false, canvas, new(5, 11));
-                            
+
                             //texture index of 3 left unused
 
                             //tiles with texture index of 4
@@ -319,18 +323,18 @@ namespace Platformer.Classes {
                             GenerateGroundBlock(32, new(1, 1), 5, 0, false, canvas, new(23, 0));
 
                             //tiles with texture index of 6
-                            GenerateGroundBlock(32, new( 2, 5), 6, 0, false, canvas, new( 0,  0));
-                            GenerateGroundBlock(32, new( 1, 2), 6, 0, false, canvas, new( 2,  3));
-                            GenerateGroundBlock(32, new( 1, 1), 6, 0, false, canvas, new( 3,  4));
-                            GenerateGroundBlock(32, new( 2, 4), 6, 0, false, canvas, new( 0, 11));
-                            GenerateGroundBlock(32, new( 3, 3), 6, 0, false, canvas, new( 2, 12));
-                            GenerateGroundBlock(32, new(17, 2), 6, 0, false, canvas, new( 5, 13));
-                            GenerateGroundBlock(32, new( 3, 3), 6, 0, false, canvas, new(22, 12));
-                            GenerateGroundBlock(32, new( 2, 4), 6, 0, false, canvas, new(25, 11));
-                            GenerateGroundBlock(32, new( 3, 5), 6, 0, false, canvas, new(24,  0));
-                            GenerateGroundBlock(32, new( 1, 2), 6, 0, false, canvas, new(23,  2));
-                            GenerateGroundBlock(32, new( 1, 1), 6, 0, false, canvas, new(22,  3));
-                            GenerateGroundBlock(32, new( 1, 1), 6, 0, false, canvas, new(25,  3));
+                            GenerateGroundBlock(32, new(2, 5), 6, 0, false, canvas, new(0, 0));
+                            GenerateGroundBlock(32, new(1, 2), 6, 0, false, canvas, new(2, 3));
+                            GenerateGroundBlock(32, new(1, 1), 6, 0, false, canvas, new(3, 4));
+                            GenerateGroundBlock(32, new(2, 4), 6, 0, false, canvas, new(0, 11));
+                            GenerateGroundBlock(32, new(3, 3), 6, 0, false, canvas, new(2, 12));
+                            GenerateGroundBlock(32, new(17, 2), 6, 0, false, canvas, new(5, 13));
+                            GenerateGroundBlock(32, new(3, 3), 6, 0, false, canvas, new(22, 12));
+                            GenerateGroundBlock(32, new(2, 4), 6, 0, false, canvas, new(25, 11));
+                            GenerateGroundBlock(32, new(3, 5), 6, 0, false, canvas, new(24, 0));
+                            GenerateGroundBlock(32, new(1, 2), 6, 0, false, canvas, new(23, 2));
+                            GenerateGroundBlock(32, new(1, 1), 6, 0, false, canvas, new(22, 3));
+                            GenerateGroundBlock(32, new(1, 1), 6, 0, false, canvas, new(25, 3));
 
                             //tiles with texture index of 7
                             GenerateGroundBlock(32, new(1, 2), 7, 0, false, canvas, new(2, 0));
@@ -338,10 +342,10 @@ namespace Platformer.Classes {
                             //texture index of 8 left unused
 
                             //tiles with texture index of 9
-                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(23,  1));
-                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(22,  2));
-                            GenerateGroundBlock(32, new(1, 1), 9, 3, false, canvas, new(21,  3));
-                            GenerateGroundBlock(32, new(1, 1), 9, 3, false, canvas, new(23,  4));
+                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(23, 1));
+                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(22, 2));
+                            GenerateGroundBlock(32, new(1, 1), 9, 3, false, canvas, new(21, 3));
+                            GenerateGroundBlock(32, new(1, 1), 9, 3, false, canvas, new(23, 4));
                             GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(24, 11));
                             GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(21, 12));
 
@@ -351,19 +355,20 @@ namespace Platformer.Classes {
                             GenerateGroundBlock(32, new(1, 1), 10, 0, false, canvas, new(23, 5));
 
                             //tiles with texture index of 11                 
-                            GenerateGroundBlock(32, new(4, 1), 11, 0, false, canvas, new( 0, 5));
-                            GenerateGroundBlock(32, new(1, 1), 11, 0, false, canvas, new( 5, 4));
+                            GenerateGroundBlock(32, new(4, 1), 11, 0, false, canvas, new(0, 5));
+                            GenerateGroundBlock(32, new(1, 1), 11, 0, false, canvas, new(5, 4));
                             GenerateGroundBlock(32, new(1, 1), 11, 0, false, canvas, new(22, 4));
                             GenerateGroundBlock(32, new(3, 1), 11, 0, false, canvas, new(24, 5));
 
                             //tiles with texture index of 12
                             GenerateGroundBlock(32, new(1, 1), 12, 0, false, canvas, new(6, 4));
                             GenerateGroundBlock(32, new(1, 1), 12, 0, false, canvas, new(4, 5));
-                            
+
                             //texture indecies of 13 and 14 left unused
                         } //load level landscape
 
-                        GenerateHero(canvas,
+                        {
+                            GenerateHero(canvas,
                             new Player(speed: 5,
                                        jumpSpeed: 7,
                                        jumpForce: 7,
@@ -374,53 +379,162 @@ namespace Platformer.Classes {
                                        isAnimated_: true),
                             new(10, 480 / 2));
 
-                        GenerateEnemy(canvas,
-                            new Enemy(speed: 2,
-                                      jumpSpeed: 7,
-                                      jumpForce: 7,
-                                      heatPoint: 10,
-                                      attackPower: 1,
-                                      attackSpeed: 30,
-                                      spritePath: "Sprites/skeleton.png",
-                                      isAnimated_: true,
-                                      isFlying: false),
-                            new(640, 480 / 2));
+                            GenerateEnemy(canvas,
+                                new Enemy(speed: 2,
+                                          jumpSpeed: 7,
+                                          jumpForce: 7,
+                                          heatPoint: 10,
+                                          attackPower: 1,
+                                          attackSpeed: 30,
+                                          spritePath: "Sprites/skeleton.png",
+                                          isAnimated_: true,
+                                          isFlying: false),
+                                new(640, 480 / 2));
 
-                        GenerateEnemy(canvas,
-                            new Enemy(speed: 3,
-                                      jumpSpeed: 7,
-                                      jumpForce: 7,
-                                      heatPoint: 3,
-                                      attackPower: 1,
-                                      attackSpeed: 50,
-                                      spritePath: "Sprites/mushroom.png",
-                                      isAnimated_: true,
-                                      isFlying: false),
-                            new(640, 480 / 2));
+                            GenerateEnemy(canvas,
+                                new Enemy(speed: 3,
+                                          jumpSpeed: 7,
+                                          jumpForce: 7,
+                                          heatPoint: 3,
+                                          attackPower: 1,
+                                          attackSpeed: 50,
+                                          spritePath: "Sprites/mushroom.png",
+                                          isAnimated_: true,
+                                          isFlying: false),
+                                new(640, 480 / 2));
 
-                        GenerateEnemy(canvas,
-                            new Enemy(speed: 4,
-                                      jumpSpeed: 7,
-                                      jumpForce: 7,
-                                      heatPoint: 5,
-                                      attackPower: 1,
-                                      attackSpeed: 30,
-                                      spritePath: "Sprites/goblin.png",
-                                      isAnimated_: true,
-                                      isFlying: false),
-                            new(640, 480 / 2));
+                            GenerateEnemy(canvas,
+                                new Enemy(speed: 4,
+                                          jumpSpeed: 7,
+                                          jumpForce: 7,
+                                          heatPoint: 5,
+                                          attackPower: 1,
+                                          attackSpeed: 30,
+                                          spritePath: "Sprites/goblin.png",
+                                          isAnimated_: true,
+                                          isFlying: false),
+                                new(640, 480 / 2));
 
-                        GenerateEnemy(canvas,
-                            new Enemy(speed: 4,
-                                      jumpSpeed: 7,
-                                      jumpForce: 7,
-                                      heatPoint: 5,
-                                      attackPower: 1,
-                                      attackSpeed: 20,
-                                      spritePath: "Sprites/flying_eye.png",
-                                      isAnimated_: true,
-                                      isFlying: true),
-                            new(640 / 2, 480 / 4));
+                            GenerateEnemy(canvas,
+                                new Enemy(speed: 4,
+                                          jumpSpeed: 7,
+                                          jumpForce: 7,
+                                          heatPoint: 5,
+                                          attackPower: 1,
+                                          attackSpeed: 20,
+                                          spritePath: "Sprites/flying_eye.png",
+                                          isAnimated_: true,
+                                          isFlying: true),
+                                new(640 / 2, 480 / 4));
+                        } //load hero (and entities temp)
+
+                        break;
+                    }
+                case 1: {
+                        {
+                            //used different technique here, drawn contour first, and just then filled - much faster
+                            GenerateGroundBlock(32, new(1, 1), 11, 0, false, canvas, new(0, 3));
+                            GenerateGroundBlock(32, new(1, 1), 12, 0, false, canvas, new(1, 3));
+                            GenerateGroundBlock(32, new(1, 1), 4, 1, false, canvas, new(1, 2));
+                            GenerateGroundBlock(32, new(1, 1), 11, 0, false, canvas, new(2, 2));
+                            GenerateGroundBlock(32, new(1, 1), 12, 0, false, canvas, new(3, 2));
+                            GenerateGroundBlock(32, new(1, 1), 4, 1, false, canvas, new(3, 1));
+                            GenerateGroundBlock(32, new(1, 1), 12, 0, false, canvas, new(4, 1));
+                            GenerateGroundBlock(32, new(1, 1), 4, 1, false, canvas, new(4, 0));
+                            GenerateGroundBlock(32, new(2, 1), 11, 0, false, canvas, new(5, 0));
+                            GenerateGroundBlock(32, new(1, 1), 12, 0, false, canvas, new(7, 0));
+                            GenerateGroundBlock(32, new(1, 1), 3, 0, false, canvas, new(5, 1));
+                            GenerateGroundBlock(32, new(1, 1), 13, 0, false, canvas, new(5, 2));
+                            GenerateGroundBlock(32, new(1, 1), 13, 1, false, canvas, new(5, 3));
+                            GenerateGroundBlock(32, new(1, 1), 3, 1, false, canvas, new(6, 3));
+                            GenerateGroundBlock(32, new(1, 1), 3, 0, false, canvas, new(4, 4));
+                            GenerateGroundBlock(32, new(1, 1), 8, 0, false, canvas, new(4, 5));
+                            GenerateGroundBlock(32, new(1, 1), 13, 0, false, canvas, new(4, 6));
+                            GenerateGroundBlock(32, new(1, 1), 3, 0, false, canvas, new(7, 4));
+                            GenerateGroundBlock(32, new(1, 1), 8, 0, false, canvas, new(7, 5));
+                            GenerateGroundBlock(32, new(1, 1), 13, 0, false, canvas, new(7, 6));
+                            GenerateGroundBlock(32, new(1, 1), 13, 1, false, canvas, new(5, 6));
+                            GenerateGroundBlock(32, new(1, 1), 3, 1, false, canvas, new(6, 6));
+                            GenerateGroundBlock(32, new(1, 3), 6, 0, false, canvas, new(0, 0));
+                            GenerateGroundBlock(32, new(2, 2), 6, 0, false, canvas, new(1, 0));
+                            GenerateGroundBlock(32, new(2, 1), 6, 0, false, canvas, new(3, 0));
+                            GenerateGroundBlock(32, new(1, 1), 10, 0, false, canvas, new(20, 0));
+                            GenerateGroundBlock(32, new(2, 1), 11, 0, false, canvas, new(21, 0));
+                            GenerateGroundBlock(32, new(1, 1), 4, 2, false, canvas, new(23, 0));
+                            GenerateGroundBlock(32, new(1, 1), 10, 0, false, canvas, new(23, 1));
+                            GenerateGroundBlock(32, new(1, 1), 4, 2, false, canvas, new(24, 1));
+                            GenerateGroundBlock(32, new(1, 1), 10, 0, false, canvas, new(24, 2));
+                            GenerateGroundBlock(32, new(1, 1), 11, 0, false, canvas, new(25, 2));
+                            GenerateGroundBlock(32, new(1, 1), 4, 2, false, canvas, new(26, 2));
+                            GenerateGroundBlock(32, new(1, 1), 10, 0, false, canvas, new(26, 3));
+                            GenerateGroundBlock(32, new(1, 1), 11, 0, false, canvas, new(27, 3));
+                            GenerateGroundBlock(32, new(1, 1), 3, 0, false, canvas, new(22, 1));
+                            GenerateGroundBlock(32, new(1, 1), 13, 0, false, canvas, new(22, 2));
+                            GenerateGroundBlock(32, new(1, 1), 13, 1, false, canvas, new(21, 3));
+                            GenerateGroundBlock(32, new(1, 1), 3, 1, false, canvas, new(22, 3));
+                            GenerateGroundBlock(32, new(1, 1), 3, 0, false, canvas, new(20, 4));
+                            GenerateGroundBlock(32, new(1, 1), 13, 0, false, canvas, new(20, 5));
+                            GenerateGroundBlock(32, new(1, 1), 3, 0, false, canvas, new(23, 4));
+                            GenerateGroundBlock(32, new(1, 1), 8, 0, false, canvas, new(23, 5));
+                            GenerateGroundBlock(32, new(1, 1), 12, 0, false, canvas, new(23, 6));
+                            GenerateGroundBlock(32, new(1, 1), 13, 1, false, canvas, new(22, 6));
+                            GenerateGroundBlock(32, new(2, 1), 6, 0, false, canvas, new(23, 0));
+                            GenerateGroundBlock(32, new(2, 2), 6, 0, false, canvas, new(25, 0));
+                            GenerateGroundBlock(32, new(1, 3), 6, 0, false, canvas, new(27, 0));
+                            GenerateGroundBlock(32, new(6, 1), 1, 0, false, canvas, new(-2, 13));
+                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(4, 13));
+                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, canvas, new(4, 12));
+                            GenerateGroundBlock(32, new(3, 1), 1, 0, false, canvas, new(5, 12));
+                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(8, 12));
+                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, canvas, new(8, 11));
+                            GenerateGroundBlock(32, new(5, 1), 1, 0, false, canvas, new(9, 11));
+                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(14, 11));
+                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, canvas, new(14, 10));
+                            GenerateGroundBlock(32, new(3, 1), 1, 0, false, canvas, new(15, 10));
+                            GenerateGroundBlock(32, new(1, 1), 2, 0, false, canvas, new(18, 10));
+                            GenerateGroundBlock(32, new(1, 1), 4, 0, false, canvas, new(18, 11));
+                            GenerateGroundBlock(32, new(1, 1), 2, 0, false, canvas, new(19, 11));
+                            GenerateGroundBlock(32, new(1, 1), 4, 0, false, canvas, new(19, 12));
+                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new(20, 12));
+                            GenerateGroundBlock(32, new(1, 1), 2, 0, false, canvas, new(21, 12));
+                            GenerateGroundBlock(32, new(1, 1), 4, 0, false, canvas, new(21, 13));
+                            GenerateGroundBlock(32, new(7, 1), 1, 0, false, canvas, new(22, 13));
+                            GenerateGroundBlock(32, new(5, 1), 6, 0, false, canvas, new(0, 14));
+                            GenerateGroundBlock(32, new(4, 2), 6, 0, false, canvas, new(5, 13));
+                            GenerateGroundBlock(32, new(4, 2), 6, 0, false, canvas, new(5, 13));
+                            GenerateGroundBlock(32, new(6, 3), 6, 0, false, canvas, new(9, 12));
+                            GenerateGroundBlock(32, new(3, 4), 6, 0, false, canvas, new(15, 11));
+                            GenerateGroundBlock(32, new(1, 3), 6, 0, false, canvas, new(18, 12));
+                            GenerateGroundBlock(32, new(3, 2), 6, 0, false, canvas, new(19, 13));
+                            GenerateGroundBlock(32, new(6, 1), 6, 0, false, canvas, new(22, 14));
+                        } //load level landscape
+
+                        {
+                            GenerateHero(canvas,
+                            new Player(speed: 5,
+                                       jumpSpeed: 7,
+                                       jumpForce: 7,
+                                       heatPoint: 10,
+                                       attackPower: 1,
+                                       attackSpeed: 5,
+                                       spritePath: "Sprites/medieval_king.png",
+                                       isAnimated_: true),
+                            new(10, 480 / 2));
+
+                            GenerateEnemy(canvas,
+                                new Enemy(speed: 4,
+                                          jumpSpeed: 7,
+                                          jumpForce: 7,
+                                          heatPoint: 5,
+                                          attackPower: 1,
+                                          attackSpeed: 20,
+                                          spritePath: "Sprites/flying_eye.png",
+                                          isAnimated_: true,
+                                          isFlying: true),
+                                new(180, 160),
+                                false);
+                        } //load hero and enemies
+
                         break;
                     }
             }
