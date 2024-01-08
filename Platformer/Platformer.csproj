@@ -16,7 +16,7 @@
     <None Remove="Sprites\mushroom.png" />
     <None Remove="Sprites\skeleton.png" />
     <None Remove="Textures\.gif" />
-    <None Remove="Textures\cave.gif" />
+    <None Remove="Textures\animated_cave.gif" />
     <None Remove="Textures\cave.png" />
     <None Remove="Textures\cave_1.gif" />
     <None Remove="Textures\cave_1.png" />
@@ -39,7 +39,9 @@
     <Resource Include="Sprites\medieval_king.png" />
     <Resource Include="Sprites\mushroom.png" />
     <Resource Include="Sprites\skeleton.png" />
-    <Resource Include="Textures\cave.gif" />
+    <Resource Include="Textures\animated_cave.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Textures\cave.png" />
     <Resource Include="Textures\medieval_battle.jpg" />
     <Resource Include="Textures\stone_tiles.png" />

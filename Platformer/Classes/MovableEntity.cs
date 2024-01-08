@@ -10,7 +10,7 @@ using System.Windows.Input;
 namespace Platformer.Classes
 {
     internal class MovableEntity(double speed, double jumpSpeed, int jumpForce, Rect hitBox,
-        int heatPoint, int attackPower, int attackSpeed, bool autoJump = false) : Entity(heatPoint, attackPower, attackSpeed, hitBox)
+        int heatPoint, int attackPower, int attackSpeed, bool autoJump = false, String? spritePath = null, bool isAnimated_ = false) : Entity(heatPoint, attackPower, attackSpeed, hitBox, spritePath, isAnimated_)
     {
         public double Speed { get; set; } = speed;
         public double JumpSpeed { get; set; } = jumpSpeed;
@@ -42,6 +42,9 @@ namespace Platformer.Classes
                     double len = direction.Length;
                     double horOffset = Speed * direction.X / len;
                     double verOffset = Speed * direction.Y / len;
+
+                    invertFrame = (horOffset < 0);
+
                     Transform(boxes, horOffset, verOffset);
                 }
                 else
@@ -49,10 +52,16 @@ namespace Platformer.Classes
             }
             else
             {
-                if (HitBox.Right <= target.Left)
+                if (HitBox.Right <= target.Left) {
+                    currState = AnimationState.Walk;
+                    invertFrame = false;
                     MoveRight();
-                else if (HitBox.Left >= target.Right)
+                }
+                else if (HitBox.Left >= target.Right) {
+                    currState = AnimationState.Walk;
+                    invertFrame = true;
                     MoveLeft();
+                }
                 else
                     StopMove();
                 Transform(boxes);

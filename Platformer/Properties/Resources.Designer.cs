@@ -63,6 +63,16 @@ namespace Platformer.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Byte[].
         /// </summary>
+        internal static byte[] animated_cave {
+            get {
+                object obj = ResourceManager.GetObject("animated_cave", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
         internal static byte[] cave {
             get {
                 object obj = ResourceManager.GetObject("cave", resourceCulture);

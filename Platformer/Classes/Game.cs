@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,37 +13,32 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using static Platformer.Classes.Entity;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Platformer.Classes {
-    internal class Game(Engine gameEngine, Player gameHero) {
+    internal class Game(Engine gameEngine) {
         #region Attributes
         //game engine
         public readonly Engine engine = gameEngine;
-
-        //player
-        public readonly Player hero = gameHero;
-
-        //enemies
-        public Dictionary<Rectangle, Enemy> Enemies = [];
-
         //current level index
         public uint currentLevel = 0;
-
+        #region SceneContent
+        //player
+        public Player hero = new();
+        //enemies
+        public Dictionary<Rectangle, Enemy> Enemies = [];
+        //ground boundaries
         public List<Rect> Bounds = [];
-
-<<<<<<< HEAD
-        //other attributes
-=======
+        //healthbars sprites (babe please, store this in corresponding entity)
         public Dictionary<Entity, ProgressBar> HealthBars = [];
-
         //other entities
->>>>>>> 86cf06c3b80ff3140a6631ecca45ced5cbb6fad7
         //private Entity Core;
+        #endregion
         #endregion
         #region Methods
         //get tiling texture
-        private Rectangle GenerateGroundBlock(uint tileSize, Vector2 sizeInTiles, uint tileIndex, uint rotate = 0, bool invert = false, Canvas? canvas = null, Vector2? placement = null) {
+        public Rectangle GenerateGroundBlock(uint tileSize, Vector2 sizeInTiles, uint tileIndex, uint rotate = 0, bool invert = false, Canvas? canvas = null, Vector2? placement = null) {
             Rectangle groundBlock = new();
             {
                 groundBlock.Name = "ground";
@@ -71,7 +67,6 @@ namespace Platformer.Classes {
                     transformation.Children.Add(new RotateTransform(rotate * 90.0, 0.5, 0.5));
 
                     tileImageBrush.RelativeTransform = transformation;
-
                 } //tiling brush generation
 
                 groundBlock.Fill = tileImageBrush;
@@ -101,20 +96,158 @@ namespace Platformer.Classes {
             return groundBlock;
         }
 
-        public void GenerateEnemy(MainWindow window, string name, Color color, Enemy enemy)
-        {
-            Rectangle eDrawRect = new()
-            {
-                Name = name,
-                Height = enemy.HitBox.Height,
-                Width = enemy.HitBox.Width,
-                Fill = new SolidColorBrush(color)
+        public void GenerateHero(MainWindow window, Player Hero, Point startPosition) {            
+            //sprite (rectangle) generation
+            Rectangle heroSprite = new();
+            heroSprite.Name = "playerSprite";
+            heroSprite.Height = 111;
+            heroSprite.Width = 160;
+            Hero.sprite = heroSprite;
+            Hero.HitBox = new Rect(startPosition.X, startPosition.Y, 20, 40);
+            Hero.hitBoxOffset = new(71, 61);
+            Canvas.SetLeft(heroSprite, startPosition.X - ((Point)Hero.hitBoxOffset).X);
+            Canvas.SetTop(heroSprite, startPosition.Y - ((Point)Hero.hitBoxOffset).Y);
+
+            //animation configuration
+            Hero.currState = AnimationState.Idle;
+            Hero.currFrame = 0;
+            Hero.invertFrame = false;
+            var configs = new List<Tuple<AnimationState, StateInfo>> {
+                Tuple.Create(AnimationState.Idle,   new StateInfo(0, 8)),
+                Tuple.Create(AnimationState.Walk,   new StateInfo(1, 8)),
+                Tuple.Create(AnimationState.Jump,   new StateInfo(2, 2)),
+                Tuple.Create(AnimationState.Fall,   new StateInfo(3, 2)),
+                Tuple.Create(AnimationState.Attack, new StateInfo(4, 4)),
+                Tuple.Create(AnimationState.Damage, new StateInfo(7, 4)),
+                Tuple.Create(AnimationState.Death,  new StateInfo(8, 6))
             };
-            Canvas.SetLeft(eDrawRect, enemy.HitBox.X);
-            Canvas.SetTop(eDrawRect, enemy.HitBox.Y);
-            window.Canvas.Children.Add(eDrawRect);
-            Enemies.Add(eDrawRect, enemy);
+            Hero.ConfigureAnimation(statesConfig: configs, animationSpeed: 3);
+            Hero.spritesheet.Height = 9;
+
+            hero = Hero; //hero assignment
+
+            window.Canvas.Children.Add(hero.sprite);
+            AddHealthBar(window, hero, 50, 8, Brushes.Green);
+            hero.Animate(hero.sprite);
+        }
+
+        public void GenerateEnemy(MainWindow window, Enemy enemy, Point startPosition)
+        {
+            //skeleton
+            if (enemy.SpritePath == "Sprites/skeleton.png")
+            {
+                //sprite (rectangle) generation
+                Rectangle enemySprite = new();
+                enemySprite.Name = "enemySprite";
+                enemySprite.Height = 150;
+                enemySprite.Width = 150;
+                enemy.sprite = enemySprite;
+                enemy.HitBox = new Rect(startPosition.X, startPosition.Y, 25, 50);
+                enemy.hitBoxOffset = new(66, 51);
+                Canvas.SetLeft(enemySprite, startPosition.X - ((Point)enemy.hitBoxOffset).X);
+                Canvas.SetTop(enemySprite, startPosition.Y - ((Point)enemy.hitBoxOffset).Y);
+
+                //animation configuration
+                enemy.currState = AnimationState.Walk;
+                enemy.currFrame = 0;
+                enemy.invertFrame = false;
+                var configs = new List<Tuple<AnimationState, StateInfo>> {
+                    Tuple.Create(AnimationState.Idle,   new StateInfo(0, 4)),
+                    Tuple.Create(AnimationState.Walk,   new StateInfo(1, 4)),
+                    Tuple.Create(AnimationState.Attack, new StateInfo(2, 8)),
+                    Tuple.Create(AnimationState.Damage, new StateInfo(4, 4)),
+                    Tuple.Create(AnimationState.Death,  new StateInfo(5, 4))
+                };
+                enemy.ConfigureAnimation(statesConfig: configs, animationSpeed: 3);
+                enemy.spritesheet.Height = 6;
+            }
+            //mushroom
+            if (enemy.SpritePath == "Sprites/mushroom.png")
+            {
+                //sprite (rectangle) generation
+                Rectangle enemySprite = new();
+                enemySprite.Name = "enemySprite";
+                enemySprite.Height = 150;
+                enemySprite.Width = 150;
+                enemy.sprite = enemySprite;
+                enemy.HitBox = new Rect(startPosition.X, startPosition.Y, 20, 35);
+                enemy.hitBoxOffset = new(65, 66);
+                Canvas.SetLeft(enemySprite, startPosition.X - ((Point)enemy.hitBoxOffset).X);
+                Canvas.SetTop(enemySprite, startPosition.Y - ((Point)enemy.hitBoxOffset).Y);
+
+                //animation configuration
+                enemy.currState = AnimationState.Walk;
+                enemy.currFrame = 0;
+                enemy.invertFrame = false;
+                var configs = new List<Tuple<AnimationState, StateInfo>> {
+                    Tuple.Create(AnimationState.Idle,   new StateInfo(0, 4)),
+                    Tuple.Create(AnimationState.Walk,   new StateInfo(1, 8)),
+                    Tuple.Create(AnimationState.Attack, new StateInfo(2, 8)),
+                    Tuple.Create(AnimationState.Damage, new StateInfo(4, 4)),
+                    Tuple.Create(AnimationState.Death,  new StateInfo(5, 4))
+                };
+                enemy.ConfigureAnimation(statesConfig: configs, animationSpeed: 3);
+            }
+            //goblin
+            if (enemy.SpritePath == "Sprites/goblin.png")
+            {
+                //sprite (rectangle) generation
+                Rectangle enemySprite = new();
+                enemySprite.Name = "enemySprite";
+                enemySprite.Height = 150;
+                enemySprite.Width = 150;
+                enemy.sprite = enemySprite;
+                enemy.HitBox = new Rect(startPosition.X, startPosition.Y, 25, 35);
+                enemy.hitBoxOffset = new(62, 66);
+                Canvas.SetLeft(enemySprite, startPosition.X - ((Point)enemy.hitBoxOffset).X);
+                Canvas.SetTop(enemySprite, startPosition.Y - ((Point)enemy.hitBoxOffset).Y);
+
+                //animation configuration
+                enemy.currState = AnimationState.Walk;
+                enemy.currFrame = 0;
+                enemy.invertFrame = false;
+                var configs = new List<Tuple<AnimationState, StateInfo>> {
+                    Tuple.Create(AnimationState.Idle,   new StateInfo(0, 4)),
+                    Tuple.Create(AnimationState.Walk,   new StateInfo(1, 8)),
+                    Tuple.Create(AnimationState.Attack, new StateInfo(2, 8)),
+                    Tuple.Create(AnimationState.Damage, new StateInfo(4, 4)),
+                    Tuple.Create(AnimationState.Death,  new StateInfo(5, 4))
+                };
+                enemy.ConfigureAnimation(statesConfig: configs, animationSpeed: 3);
+            }
+            //flying eye
+            if (enemy.SpritePath == "Sprites/flying_eye.png")
+            {
+                //sprite (rectangle) generation
+                Rectangle enemySprite = new();
+                enemySprite.Name = "enemySprite";
+                enemySprite.Height = 150;
+                enemySprite.Width = 150;
+                enemy.sprite = enemySprite;
+                enemy.HitBox = new Rect(startPosition.X, startPosition.Y, 20, 20);
+                enemy.hitBoxOffset = new(70, 67);
+                Canvas.SetLeft(enemySprite, startPosition.X - ((Point)enemy.hitBoxOffset).X);
+                Canvas.SetTop(enemySprite, startPosition.Y - ((Point)enemy.hitBoxOffset).Y);
+
+                //animation configuration
+                enemy.currState = AnimationState.Walk;
+                enemy.currFrame = 0;
+                enemy.invertFrame = false;
+                var configs = new List<Tuple<AnimationState, StateInfo>> {
+                    Tuple.Create(AnimationState.Walk,   new StateInfo(0, 8)),
+                    Tuple.Create(AnimationState.Attack, new StateInfo(1, 8)),
+                    Tuple.Create(AnimationState.Damage, new StateInfo(2, 4)),
+                    Tuple.Create(AnimationState.Death,  new StateInfo(3, 4))
+                };
+                enemy.ConfigureAnimation(statesConfig: configs, animationSpeed: 3);
+            }
+
+            if (enemy.sprite != null)
+                Enemies.Add(enemy.sprite, enemy); //enemy assignment
+
+            window.Canvas.Children.Add(enemy.sprite);
             AddHealthBar(window, enemy, 50, 5, Brushes.Red);
+            enemy.Animate(enemy.sprite);
         }
 
         public void AddHealthBar(MainWindow window, Entity entity, int width, int height, Brush brush)
@@ -135,7 +268,12 @@ namespace Platformer.Classes {
 
         //level managing
         public void LoadLevel(MainWindow window, uint LevelIndex = 0) {
-            window.Canvas.Children.Clear(); //clear canvas
+            {
+                Enemies = [];
+                Bounds = [];
+                HealthBars = [];
+                window.Canvas.Children.Clear(); //clear canvas
+            } //clear level
             //load level map
             switch (LevelIndex) {
                 default:
@@ -218,26 +356,65 @@ namespace Platformer.Classes {
                             //texture indecies of 13 and 14 left unused
                         } //load level landscape
 
-                        //create hero sprite and place it on canvas
-                        Rectangle Hero = new();
-                        Hero.Name = "playerSprite";
-                        Hero.Height = 64;
-                        Hero.Width = 32;
-                        Hero.Fill = new SolidColorBrush(Colors.Lime);
-                        Point startPosition = new(640 / 2, 480 / 2);
-                        Canvas.SetLeft(Hero, startPosition.X);
-                        Canvas.SetTop(Hero, startPosition.Y);
-                        window.Canvas.Children.Add(Hero);
+                        GenerateHero(window,
+                            new Player(speed: 5,
+                                       jumpSpeed: 7,
+                                       jumpForce: 7,
+                                       heatPoint: 10,
+                                       attackPower: 1,
+                                       attackSpeed: 5,
+                                       spritePath: "Sprites/medieval_king.png",
+                                       isAnimated_: true),
+                            new(10, 480 / 2));
 
-                        AddHealthBar(window, hero, 50, 8, Brushes.Green);
-                        
-                        hero.HitBox = new Rect(startPosition.X, startPosition.Y, Hero.Width, Hero.Height);
+                        GenerateEnemy(window,
+                            new Enemy(speed: 2,
+                                      jumpSpeed: 7,
+                                      jumpForce: 7,
+                                      heatPoint: 10,
+                                      attackPower: 1,
+                                      attackSpeed: 30,
+                                      spritePath: "Sprites/skeleton.png",
+                                      isAnimated_: true,
+                                      isFlying: false),
+                            new(640, 480 / 2));
 
-                        // TODO: I don't know, just... just fix it?
-                        GenerateEnemy(window, "enemy1Sprite", Colors.Red,
-                            new(speed: 8, jumpSpeed: 10, jumpForce: 10, heatPoint: 10, attackPower: 1, attackSpeed: 50, hitBox: new Rect(450, 240, 30, 40)));
-                        GenerateEnemy(window, "enemy2Sprite", Colors.Cyan,
-                            new(speed: 3, jumpSpeed: 0, jumpForce: 0, heatPoint: 10, attackPower: 1, attackSpeed: 50, hitBox: new Rect(338, 210, 35, 20), isFlying: true));
+                        GenerateEnemy(window,
+                            new Enemy(speed: 3,
+                                      jumpSpeed: 7,
+                                      jumpForce: 7,
+                                      heatPoint: 3,
+                                      attackPower: 1,
+                                      attackSpeed: 50,
+                                      spritePath: "Sprites/mushroom.png",
+                                      isAnimated_: true,
+                                      isFlying: false),
+                            new(640, 480 / 2));
+
+                        GenerateEnemy(window,
+                            new Enemy(speed: 4,
+                                      jumpSpeed: 7,
+                                      jumpForce: 7,
+                                      heatPoint: 5,
+                                      attackPower: 1,
+                                      attackSpeed: 30,
+                                      spritePath: "Sprites/goblin.png",
+                                      isAnimated_: true,
+                                      isFlying: false),
+                            new(640, 480 / 2));
+
+                        GenerateEnemy(window,
+                            new Enemy(speed: 4,
+                                      jumpSpeed: 7,
+                                      jumpForce: 7,
+                                      heatPoint: 5,
+                                      attackPower: 1,
+                                      attackSpeed: 20,
+                                      spritePath: "Sprites/flying_eye.png",
+                                      isAnimated_: true,
+                                      isFlying: true),
+                            new(640 / 2, 480 / 4));
+
                         break;
                     }
             }

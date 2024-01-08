@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using static Platformer.Classes.Entity;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Platformer {
@@ -21,44 +22,58 @@ namespace Platformer {
         #region Attributes
         //game itself
         private readonly Game platformer;
+
         #endregion
         #region Methods
         private Rectangle? GetRectangleByName(string rectName) {
             IEnumerable<Rectangle> rectangles = Canvas.Children.OfType<Rectangle>();
             foreach (var rect in rectangles)
-                if (rect.Name == rectName) 
+                if (rect.Name == rectName)
                     return rect;
             return null;
         }
 
         private void CustomRender(object? sender, EventArgs e) {
-            Rectangle? player = GetRectangleByName("playerSprite");
-            if (player == null) return;
+            if (platformer.hero.currState == AnimationState.Death &&
+                platformer.hero.prevState == AnimationState.Death &&
+                platformer.hero.currFrame == 0) {
+                platformer.engine.Timer.Stop();
 
-            // Update player
-            platformer.hero.Update(platformer.Bounds);
-            Canvas.SetLeft(player, platformer.hero.X);
-            Canvas.SetTop(player, platformer.hero.Y);
+                //TODO: what we wanna do here
+                MessageBox.Show("You died");
+            }
 
-            // Update enemies
+            if (platformer.hero.currState != AnimationState.Damage ||
+                platformer.hero.prevState != AnimationState.Damage ||
+                platformer.hero.currFrame != 0) {
+                // Update player
+                platformer.hero.Update(platformer.Bounds);
+                if (platformer.hero.hitBoxOffset != null) {
+                    Canvas.SetLeft(platformer.hero.sprite, platformer.hero.X - ((Point)platformer.hero.hitBoxOffset).X);
+                    Canvas.SetTop(platformer.hero.sprite, platformer.hero.Y - ((Point)platformer.hero.hitBoxOffset).Y);
+                }
+            }
+            platformer.hero.Animate(platformer.hero.sprite);
+
+            //Update enemies
             foreach (var (enemyDrawRect, enemy) in platformer.Enemies)
             {
                 enemy.Update(platformer.Bounds, platformer.hero.HitBox);
-                Canvas.SetLeft(enemyDrawRect, enemy.X);
-                Canvas.SetTop(enemyDrawRect, enemy.Y);
-
+                if (enemy.hitBoxOffset != null) {
+                    Canvas.SetLeft(enemyDrawRect, enemy.X - ((Point)enemy.hitBoxOffset).X);
+                    Canvas.SetTop(enemyDrawRect, enemy.Y - ((Point)enemy.hitBoxOffset).Y);
+                }
                 // Attack the hero if the enemy is close to him
                 if (platformer.hero.HitBox.IntersectsWith(enemy.HitBox))
                 {
+                    enemy.currState = AnimationState.Attack;
                     enemy.Attack(platformer.hero);
                     if (platformer.hero.HitPoints <= 0)
-                    {
-                        // TODO: Game over
-                        platformer.engine.Timer.Stop();
-                        MessageBox.Show("You died");
-                    }
+                        platformer.hero.currState = AnimationState.Death;
+                    else
+                        platformer.hero.currState = AnimationState.Damage;
                 }
-
+                enemy.Animate(enemyDrawRect);
             }
 
             // Update healthbars
@@ -66,7 +81,7 @@ namespace Platformer {
             {
                 healthBar.Value = entity.HitPoints;
                 Canvas.SetLeft(healthBar, entity.HitBox.X - (healthBar.Width - entity.HitBox.Width) / 2);
-                Canvas.SetTop(healthBar, entity.HitBox.Y - healthBar.Height - 3);
+                Canvas.SetTop(healthBar, entity.HitBox.Y - healthBar.Height - 20);
             }
         }
 
@@ -83,23 +98,53 @@ namespace Platformer {
                 platformer.LoadLevel(this, platformer.currentLevel);
             } //restart current level
 
+            //if player is no longer under control
+            if (platformer.hero.currState == AnimationState.Death) {
+                platformer.hero.StopRight();
+                platformer.hero.StopLeft();
+                return;
+            }
+
             //player movement
-            if (e.Key == Key.D)
+            if (e.Key == Key.D) {
+                platformer.hero.currState = AnimationState.Walk;
+                platformer.hero.invertFrame = false;
                 platformer.hero.MoveRight();
-            else if (e.Key == Key.A)
+            }
+            if (e.Key == Key.A) {
+                platformer.hero.currState = AnimationState.Walk;
+                platformer.hero.invertFrame = true;
                 platformer.hero.MoveLeft();
-            else if (e.Key == Key.W)
+            }
+            if (e.Key == Key.W) {
                 platformer.hero.Jump();
-            
+            }
             //attack
             if (e.Key == Key.X)
             {
+                platformer.hero.currState = AnimationState.Attack;
+
+                //combo attack feature
+                if (platformer.hero.currFrame == 0) {
+                    platformer.hero.animationStates[(int)AnimationState.Attack].spritesheetIndex = (platformer.hero.animationStates[(int)AnimationState.Attack].spritesheetIndex + 1) % 2 + 4;
+                }
+
+                int attackSpread = 65;
+
+                Point playerCenter = new(platformer.hero.HitBox.Location.X + platformer.hero.HitBox.Width  / 2,
+                                         platformer.hero.HitBox.Location.Y + platformer.hero.HitBox.Height / 2);
+
                 List<Rectangle> forRemoval = [];
-                foreach (var (enemyDrawRect, enemy) in platformer.Enemies)
-                {
-                    if (platformer.hero.HitBox.IntersectsWith(enemy.HitBox))
+                foreach (var (enemyDrawRect, enemy) in platformer.Enemies) {
+                    Point enemyCenter = new(enemy.HitBox.Location.X + enemy.HitBox.Width  / 2,
+                                            enemy.HitBox.Location.Y + enemy.HitBox.Height / 2);
+                    Point distances = new(enemyCenter.X - playerCenter.X, enemyCenter.Y - playerCenter.Y);
+                    if (Math.Abs(distances.Y) < platformer.hero.HitBox.Height / 2 + 10 && //10 is a small ~magic~ threshold to sorta fix weird collision behaviour
+                        (!platformer.hero.invertFrame && 0 <=  distances.X &&  distances.X < attackSpread ||
+                          platformer.hero.invertFrame && 0 <= -distances.X && -distances.X < attackSpread))
                     {
                         platformer.hero.Attack(enemy);
+
                         if (enemy.HitPoints <= 0)
                             forRemoval.Add(enemyDrawRect);
                     }
@@ -118,20 +163,31 @@ namespace Platformer {
                     platformer.Enemies.Remove(enemyDrawRect);
                 }
             }
-
         }
         private void CanvasKeyUpCallback(object? sender, KeyEventArgs e) {
-            //control inputs
-            if (e.Key == Key.D)
+            //if player is no longer under control
+            if (platformer.hero.currState == AnimationState.Death) {
                 platformer.hero.StopRight();
-            else if (e.Key == Key.A)
                 platformer.hero.StopLeft();
+                return;
+            }
+
+            //control inputs
+            if (e.Key == Key.D) {
+                platformer.hero.currState = AnimationState.Idle;
+                platformer.hero.StopRight();
+            }
+            else if (e.Key == Key.A) {
+                platformer.hero.currState = AnimationState.Idle;
+                platformer.hero.StopLeft();
+            }
+            else if (e.Key == Key.X)
+                platformer.hero.currState = AnimationState.Idle;
         }
-        /*
+        
         private void MediaEndedCallback(object? sender, RoutedEventArgs e) {
-            backgroundGIF.Position = TimeSpan.FromSeconds(1);
+            //backgroundGIF.Position = TimeSpan.FromMilliseconds(1);
         } //for GIF background animation
-        */
 
         //constructors
         public MainWindow() {
@@ -146,9 +202,8 @@ namespace Platformer {
             //components of the window initialization
             Canvas.Focus();
 
-            //game engine initialization
-            var player = new Player(speed: 10, jumpSpeed: 10, jumpForce: 10, heatPoint: 10, attackPower: 1, attackSpeed: 1);
-            platformer = new(new(CustomRender), player);
+            //game initialization with CustomRender function binded to game engine
+            platformer = new(new(CustomRender));
 
             //load first game level (main menu load should be here as level 0)
             platformer.LoadLevel(this, 0);
