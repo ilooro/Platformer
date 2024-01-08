@@ -51,7 +51,7 @@ namespace Platformer.UserControls
                 platformer.GameStopwatch.Stop();
                 platformer.engine.Timer.Stop();
 
-                Windows.GameOverWindow gow = new(platformer.GameStopwatch.Elapsed)
+                Windows.GameOverWindow gow = new(platformer.GameStopwatch.Elapsed, platformer.CurrentLevel)
                 {
                     Owner = Parent as Window,
                     ShowInTaskbar = false
@@ -243,7 +243,7 @@ namespace Platformer.UserControls
             platformer = new(new(CustomRender));
 
             //load first game level (main menu load should be here as level 0)
-            platformer.LoadLevel(Canvas, levelNum - 1);
+            platformer.LoadLevel(Canvas, levelNum);
         } //default constructor
         #endregion
     }

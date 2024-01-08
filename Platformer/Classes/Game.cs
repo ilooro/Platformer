@@ -23,7 +23,7 @@ namespace Platformer.Classes {
         //game engine
         public readonly Engine engine = gameEngine;
         //current level index
-        public uint currentLevel = 0;
+        public uint CurrentLevel = 1;
         #region SceneContent
         //player
         public Player hero = new();
@@ -36,8 +36,8 @@ namespace Platformer.Classes {
 
         public Stopwatch GameStopwatch = new();
 
-        public Point[] FlingSpawnPosition;
-        public Point[] GroundSpawnPosition;
+        public Point[] FlingSpawnPosition = [];
+        public Point[] GroundSpawnPosition = [];
 
         // Spawn
         private int _enemyIndex = 0;
@@ -390,9 +390,10 @@ namespace Platformer.Classes {
             GameStopwatch.Restart();
             GameStopwatch.Start();
             //load level map
-            switch (LevelIndex) {
+            CurrentLevel = LevelIndex;
+            switch (CurrentLevel) {
                 default:
-                case 0: {
+                case 1: {
                         {
                             //tiles with texture index of 0
                             GenerateGroundBlock(32, new(1, 1), 0, 0, false, canvas, new(22, 1));
@@ -494,7 +495,7 @@ namespace Platformer.Classes {
 
                         break;
                     }
-                case 1: {
+                case 2: {
                         {
                             //used different technique here, drawn contour first, and just then filled - much faster
                             GenerateGroundBlock(32, new(1, 1), 11, 0, false, canvas, new(0, 3));
