@@ -40,11 +40,9 @@ namespace Platformer.UserControls
 
                 await stream.WriteAsync(Encoding.UTF8.GetBytes("GET\n"));
 
-                // буфер для входящих данных
                 var response = new List<byte>();
-                int bytesRead = 10; // для считывания байтов из потока
+                int bytesRead = 10;
 
-                //bytesRead = stream.ReadByte();
                 while ((bytesRead = stream.ReadByte()) != '\n')
                 {
                     response.Add((byte)bytesRead);
@@ -56,7 +54,6 @@ namespace Platformer.UserControls
                 for (int i = 0; i < 5; i++)
                 {
                     split2 = split[i].Split(' ');
-                    //table.Add(("User", new TimeSpan()));
                     if (split2[0] == "")
                         split2[0] = "User";
                     table.Add((split2[0], TimeSpan.Parse(split2[1])));
