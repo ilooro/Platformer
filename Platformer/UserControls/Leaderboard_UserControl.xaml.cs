@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,10 +29,44 @@ namespace Platformer.UserControls
             SetTable();
         }
 
-        private void SetTable()
+        private async void SetTable()
         {
+            TcpClient tcpClient = new TcpClient();
             var table = new List<(string Name, TimeSpan Time)>();
-            for (int i = 0; i < 5; i++) table.Add(("User", new TimeSpan())); // Delete this and get data from server with _levelNum param
+            try
+            {
+                await tcpClient.ConnectAsync("127.0.0.1", 8888);
+                var stream = tcpClient.GetStream();
+
+                await stream.WriteAsync(Encoding.UTF8.GetBytes("GET\n"));
+
+                // буфер для входящих данных
+                var response = new List<byte>();
+                int bytesRead = 10; // для считывания байтов из потока
+
+                //bytesRead = stream.ReadByte();
+                while ((bytesRead = stream.ReadByte()) != '\n')
+                {
+                    response.Add((byte)bytesRead);
+                }
+
+                string[] split = Encoding.UTF8.GetString(response.ToArray()).Split('/')[_levelNum - 1].Split(';');
+                string[] split2;
+
+                for (int i = 0; i < 5; i++)
+                {
+                    split2 = split[i].Split(' ');
+                    //table.Add(("User", new TimeSpan()));
+                    if (split[0] == "")
+                        split[0] = "User";
+                    table.Add((split2[0], TimeSpan.Parse(split2[1])));
+                }
+                tcpClient.Close();
+            }
+            catch (SocketException)
+            {
+                for (int i = 0; i < 5; i++) table.Add(("User", new TimeSpan()));
+            }
 
             FirstName.Text = table[0].Name;
             FirstTime.Text = $"{table[0].Time.Minutes:00}:{table[0].Time.Seconds:00}";
