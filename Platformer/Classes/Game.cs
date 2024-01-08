@@ -490,7 +490,7 @@ namespace Platformer.Classes {
                         } //load hero
 
                         GroundSpawnPosition = [new(0, 240), new(830, 240)];
-                        FlingSpawnPosition = [new(0, 240), new(300, 100), new(830, 240), new(500, 100)];
+                        FlingSpawnPosition = [new(-32, 240), new(300, -32), new(870, 240), new(500, -32)];
 
                         break;
                     }
