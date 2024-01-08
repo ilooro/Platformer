@@ -32,20 +32,6 @@ namespace Platformer.Windows
             _levelNum = levelNum;
 
             Time.Text = $"Time: {time.Minutes:00}:{time.Seconds:00}";
-
-            var table = new List<(string Name, TimeSpan Time)>();
-            for (int i = 0; i < 5; i++) table.Add(("User", new TimeSpan())); // Delete this and get data from server with levelNum param
-
-            _newRecord = time > table[4].Time;
-
-            if (!_newRecord) // Checking new record
-            {
-                NewRecordTitle.Visibility = Visibility.Collapsed;
-                NewRecordText.Visibility = Visibility.Collapsed;
-                Username.Visibility = Visibility.Collapsed;
-                Time.Margin = new Thickness(0, 160, 0, 0);
-                ExitButton.Margin = new Thickness(0, 160, 0, 0);
-            }
         }
 
         private void ExitButtonCallback(object sender, RoutedEventArgs e)
@@ -62,6 +48,25 @@ namespace Platformer.Windows
 
                 Owner.Content = new LevelSelector_UserControl();
                 Close();
+            }
+        }
+
+        async private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            await Task.Run(() => Thread.Sleep(9000));
+
+            var table = new List<(string Name, TimeSpan Time)>();
+            for (int i = 0; i < 5; i++) table.Add(("User", new TimeSpan())); // Delete this and get data from server with levelNum param
+
+            _newRecord = _time > table[4].Time;
+
+            if (!_newRecord) // Checking new record
+            {
+                NewRecordTitle.Visibility = Visibility.Collapsed;
+                NewRecordText.Visibility = Visibility.Collapsed;
+                Username.Visibility = Visibility.Collapsed;
+                Time.Margin = new Thickness(0, 160, 0, 0);
+                ExitButton.Margin = new Thickness(0, 160, 0, 0);
             }
         }
     }

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="GameOverWindow"
         ResizeMode="NoResize" WindowStartupLocation="CenterOwner" WindowStyle="None"
-        Width="623" Height="584">
+        Width="623" Height="584" Loaded="Window_Loaded">
     <Border BorderBrush="#fdcb66" BorderThickness="7">
         <StackPanel Background="#d54e17">
             <TextBlock FontFamily="{StaticResource MinecraftSeven}" Foreground="Black" 
