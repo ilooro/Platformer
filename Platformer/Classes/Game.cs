@@ -286,19 +286,19 @@ namespace Platformer.Classes {
                 case 0: {
                         {
                             //tiles with texture index of 0
-                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, canvas, new(15, 1));
-                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, canvas, new(13, 2));
-                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, canvas, new(17, 10));
-                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, canvas, new(14, 11));
+                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, canvas, new(22, 1));
+                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, canvas, new(20, 2));
+                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, canvas, new(24, 10));
+                            GenerateGroundBlock(32, new(1, 1), 0, 0, false, canvas, new(21, 11));
 
                             //tiles with texture index of 1
-                            GenerateGroundBlock(32, new(8, 1), 1, 0, false, canvas, new( 6, 12));
+                            GenerateGroundBlock(32, new(15, 1), 1, 0, false, canvas, new( 6, 12));
                             GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new( 3, 11));
-                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new(15, 11));
+                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new(22, 11));
                             GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new( 0, 10));
-                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new(18, 10));
+                            GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new(25, 10));
                             GenerateGroundBlock(32, new(2, 1), 1, 0, false, canvas, new( 4,  3));
-                            GenerateGroundBlock(32, new(1, 1), 1, 0, false, canvas, new(14,  2));
+                            GenerateGroundBlock(32, new(1, 1), 1, 0, false, canvas, new(21,  2));
 
                             //tiles with texture index of 2
                             GenerateGroundBlock(32, new(1, 1), 2, 0, false, canvas, new(3,  2));
@@ -316,7 +316,7 @@ namespace Platformer.Classes {
                             GenerateGroundBlock(32, new(1, 1), 4, 0, false, canvas, new(5, 12));
 
                             //tiles with texture index of 5
-                            GenerateGroundBlock(32, new(1, 1), 5, 0, false, canvas, new(16, 0));
+                            GenerateGroundBlock(32, new(1, 1), 5, 0, false, canvas, new(23, 0));
 
                             //tiles with texture index of 6
                             GenerateGroundBlock(32, new( 2, 5), 6, 0, false, canvas, new( 0,  0));
@@ -324,12 +324,13 @@ namespace Platformer.Classes {
                             GenerateGroundBlock(32, new( 1, 1), 6, 0, false, canvas, new( 3,  4));
                             GenerateGroundBlock(32, new( 2, 4), 6, 0, false, canvas, new( 0, 11));
                             GenerateGroundBlock(32, new( 3, 3), 6, 0, false, canvas, new( 2, 12));
-                            GenerateGroundBlock(32, new(10, 2), 6, 0, false, canvas, new( 5, 13));
-                            GenerateGroundBlock(32, new( 3, 3), 6, 0, false, canvas, new(15, 12));
-                            GenerateGroundBlock(32, new( 2, 4), 6, 0, false, canvas, new(18, 11));
-                            GenerateGroundBlock(32, new( 3, 5), 6, 0, false, canvas, new(17,  0));
-                            GenerateGroundBlock(32, new( 1, 2), 6, 0, false, canvas, new(16,  2));
-                            GenerateGroundBlock(32, new( 1, 1), 6, 0, false, canvas, new(15,  3));
+                            GenerateGroundBlock(32, new(17, 2), 6, 0, false, canvas, new( 5, 13));
+                            GenerateGroundBlock(32, new( 3, 3), 6, 0, false, canvas, new(22, 12));
+                            GenerateGroundBlock(32, new( 2, 4), 6, 0, false, canvas, new(25, 11));
+                            GenerateGroundBlock(32, new( 3, 5), 6, 0, false, canvas, new(24,  0));
+                            GenerateGroundBlock(32, new( 1, 2), 6, 0, false, canvas, new(23,  2));
+                            GenerateGroundBlock(32, new( 1, 1), 6, 0, false, canvas, new(22,  3));
+                            GenerateGroundBlock(32, new( 1, 1), 6, 0, false, canvas, new(25,  3));
 
                             //tiles with texture index of 7
                             GenerateGroundBlock(32, new(1, 2), 7, 0, false, canvas, new(2, 0));
@@ -337,28 +338,28 @@ namespace Platformer.Classes {
                             //texture index of 8 left unused
 
                             //tiles with texture index of 9
-                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(16,  1));
-                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(15,  2));
-                            GenerateGroundBlock(32, new(1, 1), 9, 3, false, canvas, new(14,  3));
-                            GenerateGroundBlock(32, new(1, 1), 9, 3, false, canvas, new(16,  4));
-                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(17, 11));
-                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(14, 12));
+                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(23,  1));
+                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(22,  2));
+                            GenerateGroundBlock(32, new(1, 1), 9, 3, false, canvas, new(21,  3));
+                            GenerateGroundBlock(32, new(1, 1), 9, 3, false, canvas, new(23,  4));
+                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(24, 11));
+                            GenerateGroundBlock(32, new(1, 1), 9, 0, false, canvas, new(21, 12));
 
                             //tiles with texture index of 10
-                            GenerateGroundBlock(32, new(1, 1), 10, 0, false, canvas, new(13, 3));
-                            GenerateGroundBlock(32, new(1, 1), 10, 0, false, canvas, new(14, 4));
-                            GenerateGroundBlock(32, new(1, 1), 10, 0, false, canvas, new(16, 5));
+                            GenerateGroundBlock(32, new(1, 1), 10, 0, false, canvas, new(20, 3));
+                            GenerateGroundBlock(32, new(1, 1), 10, 0, false, canvas, new(21, 4));
+                            GenerateGroundBlock(32, new(1, 1), 10, 0, false, canvas, new(23, 5));
 
                             //tiles with texture index of 11                 
                             GenerateGroundBlock(32, new(4, 1), 11, 0, false, canvas, new( 0, 5));
                             GenerateGroundBlock(32, new(1, 1), 11, 0, false, canvas, new( 5, 4));
-                            GenerateGroundBlock(32, new(1, 1), 11, 0, false, canvas, new(15, 4));
-                            GenerateGroundBlock(32, new(3, 1), 11, 0, false, canvas, new(17, 5));
+                            GenerateGroundBlock(32, new(1, 1), 11, 0, false, canvas, new(22, 4));
+                            GenerateGroundBlock(32, new(3, 1), 11, 0, false, canvas, new(24, 5));
 
                             //tiles with texture index of 12
                             GenerateGroundBlock(32, new(1, 1), 12, 0, false, canvas, new(6, 4));
                             GenerateGroundBlock(32, new(1, 1), 12, 0, false, canvas, new(4, 5));
-
+                            
                             //texture indecies of 13 and 14 left unused
                         } //load level landscape
 
