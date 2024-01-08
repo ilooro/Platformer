@@ -36,6 +36,29 @@ namespace Platformer.Classes {
 
         public Stopwatch GameStopwatch = new();
 
+        public Point[] FlingSpawnPosition;
+        public Point[] GroundSpawnPosition;
+
+        // Spawn
+        private int _enemyIndex = 0;
+        private int _flyPositionIndex = 0;
+        private int _groundPositionIndex = 0;
+
+        private int _spawnСooldown = 0; 
+        private int _enemesSpawnСount = 2;
+        private int _spawnDelta = 135; // Start spawn delay
+        public int SpawnDelta // Delay between spawn in ticks
+        { 
+            get
+            {
+                return _spawnDelta;
+            }
+            set
+            {
+                _spawnDelta = value;
+            }
+        } 
+
         //other entities
         //private Entity Core;
         #endregion
@@ -254,6 +277,88 @@ namespace Platformer.Classes {
             enemy.Animate(enemy.sprite);
         }
 
+        public void GenerateEnemies(Canvas canvas)
+        {
+            if (_spawnСooldown >= SpawnDelta)
+            {
+                _spawnСooldown = 0;
+                for (int i = 0; i < _enemesSpawnСount; i++)
+                {
+                    switch (_enemyIndex)
+                    {
+                        default:
+                        case 0:
+                            {
+                                GenerateEnemy(canvas,
+                                    new Enemy(speed: 2,
+                                              jumpSpeed: 7,
+                                              jumpForce: 7,
+                                              heatPoint: 10,
+                                              attackPower: 1,
+                                              attackSpeed: 30,
+                                              spritePath: "Sprites/skeleton.png",
+                                              isAnimated_: true,
+                                              isFlying: false),
+                                    GroundSpawnPosition[_groundPositionIndex]);
+                                _groundPositionIndex = (_groundPositionIndex + 1) % GroundSpawnPosition.Length;
+                                break;
+                            }
+                        case 1:
+                            {
+                                GenerateEnemy(canvas,
+                                    new Enemy(speed: 3,
+                                              jumpSpeed: 7,
+                                              jumpForce: 7,
+                                              heatPoint: 3,
+                                              attackPower: 1,
+                                              attackSpeed: 50,
+                                              spritePath: "Sprites/mushroom.png",
+                                              isAnimated_: true,
+                                              isFlying: false),
+                                    GroundSpawnPosition[_groundPositionIndex]);
+                                _groundPositionIndex = (_groundPositionIndex + 1) % GroundSpawnPosition.Length;
+                                break;
+                            }
+                        case 2:
+                            {
+                                GenerateEnemy(canvas,
+                                    new Enemy(speed: 4,
+                                              jumpSpeed: 7,
+                                              jumpForce: 7,
+                                              heatPoint: 5,
+                                              attackPower: 1,
+                                              attackSpeed: 30,
+                                              spritePath: "Sprites/goblin.png",
+                                              isAnimated_: true,
+                                              isFlying: false),
+                                    GroundSpawnPosition[_groundPositionIndex]);
+                                _groundPositionIndex = (_groundPositionIndex + 1) % GroundSpawnPosition.Length;
+                                break;
+                            }
+                        case 3:
+                            {
+                                GenerateEnemy(canvas,
+                                    new Enemy(speed: 4,
+                                              jumpSpeed: 7,
+                                              jumpForce: 7,
+                                              heatPoint: 5,
+                                              attackPower: 1,
+                                              attackSpeed: 20,
+                                              spritePath: "Sprites/flying_eye.png",
+                                              isAnimated_: true,
+                                              isFlying: true),
+                                    FlingSpawnPosition[_flyPositionIndex]);
+                                _flyPositionIndex = (_flyPositionIndex + 1) % FlingSpawnPosition.Length;
+                                break;
+                            }
+                    }
+                    _enemyIndex = (_enemyIndex + 1) % 4;
+                }
+            }
+            _spawnСooldown += 1;
+        }
+
+
         public void AddHealthBar(Canvas canvas, Entity entity, int width, int height, Brush brush)
         {
             ProgressBar healthBar = new()
@@ -360,6 +465,10 @@ namespace Platformer.Classes {
                             GenerateGroundBlock(32, new(1, 1), 12, 0, false, canvas, new(6, 4));
                             GenerateGroundBlock(32, new(1, 1), 12, 0, false, canvas, new(4, 5));
                             
+                            // Screen walls
+                            GenerateGroundBlock(32, new(1, 16), 0, 0, false, canvas, new(-1, 0));
+                            GenerateGroundBlock(32, new(1, 16), 0, 0, false, canvas, new(27, 0));
+
                             //texture indecies of 13 and 14 left unused
                         } //load level landscape
 
@@ -372,55 +481,10 @@ namespace Platformer.Classes {
                                        attackSpeed: 5,
                                        spritePath: "Sprites/medieval_king.png",
                                        isAnimated_: true),
-                            new(10, 480 / 2));
+                            new(400, 480 / 2));
 
-                        GenerateEnemy(canvas,
-                            new Enemy(speed: 2,
-                                      jumpSpeed: 7,
-                                      jumpForce: 7,
-                                      heatPoint: 10,
-                                      attackPower: 1,
-                                      attackSpeed: 30,
-                                      spritePath: "Sprites/skeleton.png",
-                                      isAnimated_: true,
-                                      isFlying: false),
-                            new(640, 480 / 2));
-
-                        GenerateEnemy(canvas,
-                            new Enemy(speed: 3,
-                                      jumpSpeed: 7,
-                                      jumpForce: 7,
-                                      heatPoint: 3,
-                                      attackPower: 1,
-                                      attackSpeed: 50,
-                                      spritePath: "Sprites/mushroom.png",
-                                      isAnimated_: true,
-                                      isFlying: false),
-                            new(640, 480 / 2));
-
-                        GenerateEnemy(canvas,
-                            new Enemy(speed: 4,
-                                      jumpSpeed: 7,
-                                      jumpForce: 7,
-                                      heatPoint: 5,
-                                      attackPower: 1,
-                                      attackSpeed: 30,
-                                      spritePath: "Sprites/goblin.png",
-                                      isAnimated_: true,
-                                      isFlying: false),
-                            new(640, 480 / 2));
-
-                        GenerateEnemy(canvas,
-                            new Enemy(speed: 4,
-                                      jumpSpeed: 7,
-                                      jumpForce: 7,
-                                      heatPoint: 5,
-                                      attackPower: 1,
-                                      attackSpeed: 20,
-                                      spritePath: "Sprites/flying_eye.png",
-                                      isAnimated_: true,
-                                      isFlying: true),
-                            new(640 / 2, 480 / 4));
+                        GroundSpawnPosition = [new(0, 240), new(830, 240)];
+                        FlingSpawnPosition = [new(0, 240), new(300, 100), new(830, 240), new(500, 100)];
                         break;
                     }
             }
