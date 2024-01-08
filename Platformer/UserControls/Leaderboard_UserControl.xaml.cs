@@ -57,8 +57,8 @@ namespace Platformer.UserControls
                 {
                     split2 = split[i].Split(' ');
                     //table.Add(("User", new TimeSpan()));
-                    if (split[0] == "")
-                        split[0] = "User";
+                    if (split2[0] == "")
+                        split2[0] = "User";
                     table.Add((split2[0], TimeSpan.Parse(split2[1])));
                 }
                 tcpClient.Close();
