@@ -47,6 +47,9 @@ namespace Platformer.Windows
             {
                 // Send information to server (_levelNum, Username.Text, _time)
 
+                Owner.Content = new LevelSelector_UserControl();
+                Close();
+
                 TcpClient tcpClient = new TcpClient();
                 try
                 {
@@ -59,8 +62,8 @@ namespace Platformer.Windows
                     tcpClient.Close();
                 }
                 catch (SocketException) { }
-                Owner.Content = new LevelSelector_UserControl();
-                Close();
+                /*Owner.Content = new LevelSelector_UserControl();
+                Close();*/
             }
         }
 
