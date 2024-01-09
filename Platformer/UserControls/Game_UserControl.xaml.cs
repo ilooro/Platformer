@@ -104,26 +104,31 @@ namespace Platformer.UserControls
             }
         }
 
+        private void Pause()
+        {
+            platformer.GameStopwatch.Stop();
+            platformer.engine.Timer.Stop();
+
+            Windows.PauseWindow pw = new()
+            {
+                Owner = Parent as Window,
+                ShowInTaskbar = false
+            };
+            pw.StartTimer = (object? sender, EventArgs e) => {
+                platformer.GameStopwatch.Start();
+                platformer.engine.Timer.Start();
+            };
+            pw.ShowDialog();
+        }
+
         //callbacks
         private void CanvasKeyDownCallback(object? sender, KeyEventArgs e)
         {
             //basic application options
             if (e.Key == Key.Escape)
             {
-                platformer.GameStopwatch.Stop();
-                platformer.engine.Timer.Stop();
-
-                Windows.PauseWindow pw = new()
-                {
-                    Owner = Parent as Window,
-                    ShowInTaskbar = false
-                };
-                pw.StartTimer = (object? sender, EventArgs e) => {
-                    platformer.GameStopwatch.Start();
-                    platformer.engine.Timer.Start();
-                };
-                pw.ShowDialog();
-            } //quit application
+                Pause();
+            }
 
             //if player is no longer under control
             if (platformer.hero.currState == AnimationState.Death)
@@ -221,6 +226,11 @@ namespace Platformer.UserControls
             }
             else if (e.Key == Key.X)
                 platformer.hero.currState = AnimationState.Idle;
+        }
+
+        private void PauseButtonCallback(object sender, RoutedEventArgs e)
+        {
+            Pause();
         }
 
         private void MediaEndedCallback(object? sender, RoutedEventArgs e)

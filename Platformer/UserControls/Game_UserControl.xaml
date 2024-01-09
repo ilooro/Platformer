@@ -12,6 +12,12 @@
             <Image gif:AnimationBehavior.SourceUri="../Textures/cave_original_upscale_crop.gif" gif:AnimationBehavior.AnimateInDesignMode="True" Height="480" Width="845"/>
             <TextBlock x:Name="TimerDisplay" FontFamily="{StaticResource MinecraftSeven}" Foreground="White" 
                       TextAlignment="Center" FontSize="35" Canvas.Right="0" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="2"/>
+            <Button Style="{DynamicResource ButtonStyle1}" Height="40" Width="40" Canvas.Left="10" Canvas.Top="10" Panel.ZIndex="2" BorderThickness="3" Click="PauseButtonCallback">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Height="17" Width="5" Fill="#fdcb66" Margin="0 0 2 0"/>
+                    <Rectangle Height="17" Width="5" Fill="#fdcb66" Margin="2 0 0 0"/>
+                </StackPanel>
+            </Button>
         </Canvas>
     </Viewbox>
 </UserControl>
