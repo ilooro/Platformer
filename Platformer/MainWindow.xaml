@@ -9,9 +9,8 @@
         Title="Hell's gatekeeper (DEMO)"
         WindowStartupLocation ="CenterScreen"
         WindowState="Maximized"
-        WindowStyle="None"
-        Background="Black">
-    <!--16:9 resolution-->
-    
-    <!--4:3 resolution-->
+        WindowStyle="None">
+    <Window.Background>
+        <ImageBrush ImageSource="Textures\cave_background.jpg"></ImageBrush>
+    </Window.Background>
 </Window>
