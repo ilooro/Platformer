@@ -4,7 +4,7 @@ using System.Text;
 using System.Transactions;
 
 
-var tcpListener = new TcpListener(IPAddress.Any, 8888);
+var tcpListener = new TcpListener(IPAddress.Any, 2024);
 Zps[][] Tbl = [new Zps[5], new Zps[5]];
 
 try

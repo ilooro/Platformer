@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Учёба\\СКТ\\C#TestServer\\TestServer\\TestServer\\TestServer.csproj": {}
+    "C:\\Users\\lapto\\source\\repos\\Platformer\\C#TestServer\\TestServer\\TestServer\\TestServer.csproj": {}
   },
   "projects": {
-    "E:\\Учёба\\СКТ\\C#TestServer\\TestServer\\TestServer\\TestServer.csproj": {
+    "C:\\Users\\lapto\\source\\repos\\Platformer\\C#TestServer\\TestServer\\TestServer\\TestServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Учёба\\СКТ\\C#TestServer\\TestServer\\TestServer\\TestServer.csproj",
+        "projectUniqueName": "C:\\Users\\lapto\\source\\repos\\Platformer\\C#TestServer\\TestServer\\TestServer\\TestServer.csproj",
         "projectName": "TestServer",
-        "projectPath": "E:\\Учёба\\СКТ\\C#TestServer\\TestServer\\TestServer\\TestServer.csproj",
-        "packagesPath": "C:\\Users\\Micle\\.nuget\\packages\\",
-        "outputPath": "E:\\Учёба\\СКТ\\C#TestServer\\TestServer\\TestServer\\obj\\",
+        "projectPath": "C:\\Users\\lapto\\source\\repos\\Platformer\\C#TestServer\\TestServer\\TestServer\\TestServer.csproj",
+        "packagesPath": "C:\\Users\\lapto\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lapto\\source\\repos\\Platformer\\C#TestServer\\TestServer\\TestServer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "E:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "D:\\programs\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Micle\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\lapto\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

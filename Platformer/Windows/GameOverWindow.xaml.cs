@@ -53,7 +53,7 @@ namespace Platformer.Windows
                 TcpClient tcpClient = new TcpClient();
                 try
                 {
-                    await tcpClient.ConnectAsync("127.0.0.1", 8888);
+                    await tcpClient.ConnectAsync("217.71.129.139", 5668);
                     var stream = tcpClient.GetStream();
 
                     byte[] data = Encoding.UTF8.GetBytes($"{_levelNum - 1} {Username.Text} {_time}\n");
@@ -71,7 +71,8 @@ namespace Platformer.Windows
             var table = new List<(string Name, TimeSpan Time)>();
             try
             {
-                await tcpClient.ConnectAsync("127.0.0.1", 8888);
+                await tcpClient.ConnectAsync("217.71.129.139", 5668);
+                //await tcpClient.ConnectAsync("127.0.0.1", 8888);
                 var stream = tcpClient.GetStream();
 
                 await stream.WriteAsync(Encoding.UTF8.GetBytes("GET\n"));
@@ -95,12 +96,15 @@ namespace Platformer.Windows
                     table.Add((split2[0], TimeSpan.Parse(split2[1])));
                 }
                 tcpClient.Close();
+                //_newRecord = _time > table[4].Time;
             }
             catch (SocketException)
             {
                 for (int i = 0; i < 5; i++) table.Add(("User", new TimeSpan()));
+                //_newRecord = false;
             }
             _newRecord = _time > table[4].Time;
+
 
             if (!_newRecord) // Checking new record
             {

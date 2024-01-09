@@ -35,7 +35,7 @@ namespace Platformer.UserControls
             var table = new List<(string Name, TimeSpan Time)>();
             try
             {
-                await tcpClient.ConnectAsync("127.0.0.1", 8888);
+                await tcpClient.ConnectAsync("217.71.129.139", 5668);
                 var stream = tcpClient.GetStream();
 
                 await stream.WriteAsync(Encoding.UTF8.GetBytes("GET\n"));

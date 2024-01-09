@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DNRzG8htIuKhB0DKfRcpnYaKSencwGm79R0eLCrYmVpTN1vcxQVNBaNiJdHWB11LAENwJUYE+NCL2bJg86EdWg==",
+  "dgSpecHash": "kZCW0YthzU32FCml4ZS3ATUqpD6ls5A1A9WfBL/Wxsf75OdGajVeQOr/N3gR4GffZ9euUQVDcdZPu3ToBLzhug==",
   "success": true,
-  "projectFilePath": "E:\\Учёба\\СКТ\\C#TestServer\\TestServer\\TestServer\\TestServer.csproj",
+  "projectFilePath": "C:\\Users\\lapto\\source\\repos\\Platformer\\C#TestServer\\TestServer\\TestServer\\TestServer.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
